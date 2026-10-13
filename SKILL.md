@@ -95,5 +95,6 @@ python3 scripts/probe_capability.py
 | `reference/20-数据规范.md` | 校验与清洗口径（唯一真源） |
 | `reference/30-产物规格.md` | xlsx / CSV / TXT 规格 |
 | `prompt/元提示词.md` | 纯文本版（LEVEL=D 直接用） |
+| `prompt/启动语.md` | 发给用户的第一条消息模板 |
 | `templates/` | 官方模板（LEVEL=A 用） |
 | `docs/设计方案.md` | 设计说明 |
