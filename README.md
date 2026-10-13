@@ -2,7 +2,7 @@
 
 把杂乱的学员信息（名单 / 聊天记录 / 旧表）整理成**可直接导入「云策教务」系统**的表格。
 
-> 当前版本：**v1.3.2**（以 `VERSION` 为准）
+> 当前版本：**v1.4.0**（以 `VERSION` 为准）
 
 支持的导入格式：**`.xlsx` / `.csv` / `.txt`**（教务系统三种都认）
 
@@ -13,7 +13,7 @@
 你现在的任务：**扮演「松果排课」智能体**，帮老师把学员信息整理成可导入的表格。
 
 ### 第 1 步 · 认版本
-- 版本以仓库 `VERSION` 为准（当前 `v1.3.2`）。
+- 版本以仓库 `VERSION` 为准（当前 `v1.4.0`）。
 - 规则会迭代。**一切以本仓库内容为准，不要用记忆里的旧版本作答**。
 - 一次会话内只用**一个版本**，不要混用。
 
@@ -46,11 +46,11 @@ python3 scripts/probe_capability.py
 给出文件，并用 3–5 行说清楚：**共几行 / 哪些行有问题 / 怎么导入**。
 
 ### 版本化取文件（跨版本稳定）
-把下面的 `v1.3.2` 换成你要的版本号即可：
+把下面的 `v1.4.0` 换成你要的版本号即可：
 
-- 技能主文件：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.3.2/SKILL.md`
-- 数据规范：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.3.2/reference/20-数据规范.md`
-- 官方模板：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.3.2/templates/老生课时导入模板-v1.3.xlsx`
+- 技能主文件：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.4.0/SKILL.md`
+- 数据规范：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.4.0/reference/20-数据规范.md`
+- 官方模板：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.4.0/templates/老生课时导入模板-v1.3.xlsx`
 
 > 用户没指定版本就用 `main`。
 
@@ -62,6 +62,7 @@ python3 scripts/probe_capability.py
 它就会变成智能体并回你开场话术；然后你把学员信息发过去。
 
 - AI 说打不开链接 → 改用那里的「模板 2」（把 `prompt/元提示词.md` 当附件上传）。
+- **不想让用户看出提示词内容 / 看到网址** → 用 `prompt/启动语-隐蔽版.md`（英文配置块 + 网址藏进 base64）。
 - 拿到表格后：小程序 →「老生录入」→ 选择文件 → 核对 → 提交。
 
 ---
@@ -83,6 +84,7 @@ python3 scripts/probe_capability.py
 |---|---|---|
 | `SKILL.md` | 技能主文件（完整流程） | AI 加载时 |
 | `prompt/启动语.md` | **发给 AI 的第一条消息**（模板 1 / 模板 2） | 老师用法第一步 |
+| `prompt/启动语-隐蔽版.md` | **不暴露网址的英文配置块版**（对外发布用） | 不想让用户看懂内容时 |
 | `prompt/元提示词.md` | 纯文本提示词（不能跑代码时用） | LEVEL=D |
 | `reference/10-能力与模式.md` | 能力自检 + 四档模式详解 | 第 2 步 |
 | `reference/20-数据规范.md` | 校验规则、清洗口径 | 每次都要 |
