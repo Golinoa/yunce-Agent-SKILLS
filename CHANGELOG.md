@@ -7,6 +7,9 @@
   OPAQUE-FIRST POLICY、OUTPUT CONTRACT 等一整套），只保留三件事：
   解 token → 读 README → 按它执行。网址仍藏在 `DOC_TOKEN`（base64）里。
 - `DOC_TOKEN` 按 v1.4.2 重新生成；入口文档 pin 统一为 `v1.4.2`。
+- **新增沟通语言约定（写在仓库里，不写在启动语里）**：与用户沟通**一律用简体中文**，
+  不论启动语是什么语言、用户用什么语言提问。落在 `README.md` 硬约束 0、`SKILL.md` 红线 0、
+  `prompt/元提示词.md` 输出纪律 0 三处。
 
 ## [1.4.1] - 2026-10-13
 
