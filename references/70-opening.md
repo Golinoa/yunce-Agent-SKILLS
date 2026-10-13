@@ -7,11 +7,12 @@
 
 ## 1. Shake hands first (**one call**; it decides whether you can write directly)
 
-Your starter prompt carries one thing: `{handshakeUrl}` — a one-time authorization link that already contains the credential.
+Your starter prompt carries two labelled parts: `authLink.host` and `authLink.path`.
+Join them as `https://<host>/<path>` — that is a one-time authorization link, the credential lives inside the path.
 **The first thing you do** is shake hands with them:
 
 ```bash
-curl -s -X POST "{handshakeUrl}" \
+curl -s -X POST "https://{authHost}/{authPath}" \
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -27,7 +28,7 @@ curl -s -X POST "{handshakeUrl}" \
    outcome (the teacher will believe the data landed).
 2. **Handshake exactly once.** The credential **is burned the moment it validates**; a second call returns
    `TOKEN_CONSUMED`.
-3. **No `{handshakeUrl}` in your starter prompt** ⇒ you have **no** direct-write capability;
+3. **No `authLink` parts in your starter prompt** ⇒ you have **no** direct-write capability;
    take the table path.
 
 > Prompts copied straight from the public repo usually lack both ⇒ **take the table path**.
@@ -60,7 +61,7 @@ curl -s -X POST "{handshakeUrl}" \
 
 > **Never force a switch.** Recommending is informing, not requiring.
 
-### The teacher picked ① but you cannot state `{handshakeUrl}`
+### The teacher picked ① but your starter prompt has no `authLink` parts
 
 That means your starter prompt carries no API address (likely copied straight from the public repo) ⇒
 **you have no direct-write capability**:

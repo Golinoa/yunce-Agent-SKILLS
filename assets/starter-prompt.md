@@ -58,7 +58,7 @@ https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/main/SKILL.md
 
 ## 🟡 模板 3：想让 AI **直接写进系统**（不用自己上传）
 
-这份由**小程序里的入口生成** —— 它会把**一次性授权链接** `{handshakeUrl}` 代入**交互元提示词**（提示词里只有「仓库链接 + 这个一次性链接」两样），
+这份由**小程序里的入口生成** —— 交互元提示词里只有**两样**，且都**拆成带标签的分片**：仓库地址（`skillDoc.host` / `skillDoc.path`）与一次性授权链接（`authLink.host` / `authLink.path`），
 所以只有从小程序复制的那份才带"直连"能力。
 
 - **模板正文（带 `{变量}` 占位符）见 [`assets/interactive-meta-prompt.md`](interactive-meta-prompt.md)** —— 运维/后端照它实现复制入口。
@@ -68,8 +68,9 @@ https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/main/SKILL.md
 - 实测**能直接写进系统**的 AI：**豆包（记得开「工作模式」）**、**Kimi**。
 - 其它 AI 不行也**没关系** —— 表格路线照样能完成任务，只是多一步上传。
 
-> 🔴 **真值绝不进仓库**：`assets/interactive-meta-prompt.md` 里只有 `{handshakeUrl}` 一个占位符。
-> **真实链接与任何凭证都不放进公开仓库**，由小程序在复制时注入；且那个链接**只能用一次**。
+> 🔴 **真值绝不进仓库**：`assets/interactive-meta-prompt.md` 里只有 4 个占位符（`{docHost}` `{docPath}` `{authHost}` `{authPath}`）。
+> **真实链接与任何凭证都不放进公开仓库**，由小程序在复制时注入；且授权链接**只能用一次**。
+> ⚠️ **不用 base64 黑盒**：历史上那个版本被内容安全策略判为 prompt injection，部分 AI 直接拒答。分片+标签即足够。
 
 ---
 

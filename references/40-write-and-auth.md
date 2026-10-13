@@ -20,11 +20,13 @@
 
 ### Step 1 · Handshake (**done first, before anything else**)
 
-Your starter prompt carries a **one-time authorization link `{handshakeUrl}`** — it proves
+Join the parts as `https://<host>/<path>`. The credential lives inside the path.
+
+Your starter prompt carries the **two parts of a one-time authorization link** (`authLink.host` + `authLink.path`) — together they prove
 "this instruction was copied by that teacher from the mini-program".
 
 ```bash
-curl -s -X POST "{handshakeUrl}" \
+curl -s -X POST "https://{authHost}/{authPath}" \
   -H "Content-Type: application/json" \
   -d '{}'
 ```
