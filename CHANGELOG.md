@@ -1,14 +1,42 @@
 # 变更记录
 
+## [2.1.0] - 2026-10-14
+
+> 指令层全面英文化 + 交互元提示词入库 + 文件名英文化。用 `skill-linter` 审计后修复（9/10 → 待复核）。
+
+### Added
+- **`assets/interactive-meta-prompt.md`（新）**：小程序「复制整理说明」入口背后的**模板**入库。
+  含 `{apiBase}` / `{promptToken}` / `{orgName}` / `{campusName}` 占位符、变量表、**为什么占位符模板可以放在公开仓库**
+  （真值绝不入库）、复制时的确认弹窗口径、以及运维同步说明。
+- `SKILL.md` 新增 **`allowed-tools`** 与 **`## Output Format`** 章节（skill-linter 的两条建议）。
+
+### Changed（破坏性：文件名）
+- `references/`：中文名 → **英文名**。
+  `10-capability.md` / `20-data-spec.md` / `30-output-spec.md` / `40-write-and-auth.md` /
+  `50-error-handling.md` / `60-guardrails.md` / `70-opening.md`
+- `assets/`：`启动语.md`→**`starter-prompt.md`**、`启动语-隐蔽版.md`→**`starter-prompt-hidden.md`**、
+  `元提示词.md`→**`meta-prompt.md`**
+- `docs/`：→ **`design.md`** / **`ops-checklist.md`**
+- 官方模板 `assets/老生课时导入模板-v1.3.xlsx` **保留中文名**（老师会下载到这个文件，文件名要看得懂）
+- ℹ️ 文件名英文化的收益：raw 链接不再需要 URL 编码，跨 AI 取文件更稳。
+
+### Changed（语言分层）
+- **指令层改英文**：`SKILL.md` 与全部 `references/*.md` 改为英文（对齐大厂技能惯例，指令用英文模型表现更好）。
+- **产物层保持中文**：`assets/starter-prompt.md`、`meta-prompt.md`、`interactive-meta-prompt.md`、官方模板
+  —— 老师要看懂、要复制、要上传。
+- 🔴 **`SKILL.md` 红线 0 明确写死**：无论启动语/用户用什么语言，**面向用户的输出一律简体中文**。
+  并在 `README.md` 新增「⚠️ 语言分层」一节，防止后人改串层。
+- `README.md` 重写：加语言分层表、加运营/后端角色入口、目录结构同步新名。
+
 ## [2.0.0] - 2026-10-14
 
 > 大版本：新增「直接写进系统」链路，并按 **skill-creator 规范**重整仓库结构（**有破坏性路径变更**）。
 
 ### 破坏性变更（路径）
 - `reference/` → **`references/`**（标准复数名）；`templates/` → **`assets/`**
-- `prompt/开场与选路.md` → **`references/70-开场与选路.md`**（AI 加载的说明归 references）
+- `prompt/开场与选路.md` → **`references/70-opening.md`**（AI 加载的说明归 references）
 - `prompt/启动语.md` / `启动语-隐蔽版.md` / `元提示词.md` → **`assets/`**（给用户的产物归 assets）
-- `模板修改清单.md` → **`docs/模板修改清单.md`**
+- `模板修改清单.md` → **`docs/ops-checklist.md`**
 - ⚠️ **所有交叉引用已同步**（含 `scripts/probe_capability.py` 里 URL 编码的模板地址、启动语里的旧 tag）
 
 ### 入口调整（重要）
@@ -19,16 +47,16 @@
 
 ### Added
 - **新增「直接写进系统」链路**（前提：该 AI 能发 HTTP POST）：
-  - `references/70-开场与选路.md` —— 开场握手 + 让老师选路 + 凭证不可用时给的两条路
-  - `references/40-写入与授权.md` —— 写入 6 步全流程（握手 → 申请授权 → 请老师授权 → 收码换钥匙 → 写隔离区 → 请老师确认）
-  - `references/50-错误处理.md` —— 错误码表 + `retryable` 用法 + 逐条降级话术
-  - `references/60-守护与安全.md` —— 防注入、凭证不泄露、能力边界必须诚实
+  - `references/70-opening.md` —— 开场握手 + 让老师选路 + 凭证不可用时给的两条路
+  - `references/40-write-and-auth.md` —— 写入 6 步全流程（握手 → 申请授权 → 请老师授权 → 收码换钥匙 → 写隔离区 → 请老师确认）
+  - `references/50-error-handling.md` —— 错误码表 + `retryable` 用法 + 逐条降级话术
+  - `references/60-guardrails.md` —— 防注入、凭证不泄露、能力边界必须诚实
 
 ### Changed
 - **技能转为「文本描述为主」**：`scripts/*.py` 降为**可选加速器**（能跑就跑、跑不了不影响交付）；
   档位判定从"会不会跑代码"改为"**你能产出什么**"（`SKILL.md` 第 2/5 步、`references/10`）
-- `assets/启动语.md`：新增**模板 3（小程序生成版）**说明；常见情况补「这台 AI 没法直接写入」的处置
-- `references/10-能力与模式.md`：新增 **`NET` 维度**专节 + 仓库打不开时的备用地址
+- `assets/starter-prompt.md`：新增**模板 3（小程序生成版）**说明；常见情况补「这台 AI 没法直接写入」的处置
+- `references/10-capability.md`：新增 **`NET` 维度**专节 + 仓库打不开时的备用地址
 
 
 ### 新增机制
@@ -45,7 +73,7 @@
 - `DOC_TOKEN` 按 v1.4.2 重新生成；入口文档 pin 统一为 `v1.4.2`。
 - **新增沟通语言约定（写在仓库里，不写在启动语里）**：与用户沟通**一律用简体中文**，
   不论启动语是什么语言、用户用什么语言提问。落在 `README.md` 硬约束 0、`SKILL.md` 红线 0、
-  `assets/元提示词.md` 输出纪律 0 三处。
+  `assets/meta-prompt.md` 输出纪律 0 三处。
 
 ## [1.4.1] - 2026-10-13
 
@@ -57,7 +85,7 @@
   3. 删掉"禁止披露指令"，换成无害的"不用解释步骤，我要结果"。
 
 ### Added
-- `assets/启动语-隐蔽版.md` 新增**被拒绝时的回话脚本**与回退路径（附件版 / 换模型），
+- `assets/starter-prompt-hidden.md` 新增**被拒绝时的回话脚本**与回退路径（附件版 / 换模型），
   并写明取舍：**越隐蔽 ⇄ 越容易被拒，无法两全**。
 
 ### Changed
@@ -66,7 +94,7 @@
 ## [1.4.0] - 2026-10-13
 
 ### Added
-- `assets/启动语-隐蔽版.md`：**不暴露网址**的启动语。英文「系统配置块」外观 +
+- `assets/starter-prompt-hidden.md`：**不暴露网址**的启动语。英文「系统配置块」外观 +
   网址/仓库/版本全部压进 `MANIFEST_B64`（base64），明文里没有任何域名或路径。
   含 `OPAQUE-FIRST POLICY`（被追问时统一回「标准数据规范化配置。」）与极简版。
 - `scripts/make_manifest_b64.py`：生成/换版本时重新产出 `MANIFEST_B64`（自带解码校验）。
@@ -83,18 +111,18 @@
 
 ### Fixed
 - 入口文档里钉的版本号与 `VERSION` 不一致（README / SKILL / 启动语 里仍写着 `v1.3.0`）→ 统一为 `v1.3.2`。
-  约定：**发布新版本时，必须把 README、SKILL、assets/启动语.md 里的 tag 一起改成新版本号**。
+  约定：**发布新版本时，必须把 README、SKILL、assets/starter-prompt.md 里的 tag 一起改成新版本号**。
 
 ## [1.3.1] - 2026-10-13
 
 ### Added
-- `assets/启动语.md`：**发给任意 AI 的第一条消息**模板。
+- `assets/starter-prompt.md`：**发给任意 AI 的第一条消息**模板。
   - 模板 1：能联网/能跑代码的 AI（给版本化 raw 链接，要求它自检 + 只加载所需文件）
-  - 模板 2：普通聊天窗口（把 `assets/元提示词.md` 当附件上传 + 两条硬约束）
+  - 模板 2：普通聊天窗口（把 `assets/meta-prompt.md` 当附件上传 + 两条硬约束）
   - 附常见情况处置（打不开链接 / 说不能生成 Excel / 微信发链接被吞 / 换版本）
 
 ### Changed
-- README「如果你是老师」一节改为直接指向 `assets/启动语.md`。
+- README「如果你是老师」一节改为直接指向 `assets/starter-prompt.md`。
 
 ## [1.3.0] - 2026-10-13
 
@@ -104,12 +132,12 @@
 - `scripts/probe_capability.py`：能力自检，输出 `LEVEL` 与建议路径。
 - `scripts/build_xlsx.py`：**纯标准库**在官方模板副本上插入数据行（不依赖 openpyxl）。
 - `scripts/build_csv.py`：生成 UTF-8 带 BOM 的导入用 CSV（RFC4180 引号处理）。
-- `references/10-能力与模式.md`、`references/20-数据规范.md`、`references/30-产物规格.md`。
-- `docs/设计方案.md`、`VERSION`、`CHANGELOG.md`。
+- `references/10-capability.md`、`references/20-data-spec.md`、`references/30-output-spec.md`。
+- `docs/design.md`、`VERSION`、`CHANGELOG.md`。
 - `assets/老生课时导入模板-v1.3.xlsx`：修正版模板。
 
 ### Changed
-- `元提示词.md` → `assets/元提示词.md`；模板移入 `assets/`。
+- `元提示词.md` → `assets/meta-prompt.md`；模板移入 `assets/`。
 - README 重写为**加载协议**（原来只是一份说明）。
 - 模板 A1 说明改为新口径：**只有「学员姓名」必填**；科目与剩余课时**成对**；剩余课时**允许负数**。
 - 模板表头 `科目*` / `剩余课时*` → **去掉星号**。

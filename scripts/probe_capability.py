@@ -6,7 +6,7 @@
     python3 probe_capability.py
 
 输出是一段**给 AI 看的判读结论**（`LEVEL=` 一行最关键），
-它会告诉你应该走 references/10-能力与模式.md 里的哪一档。
+它会告诉你应该走 references/10-capability.md 里的哪一档。
 """
 import json
 import os
@@ -71,7 +71,7 @@ if result["can_write_file"] and template_ready:
     note = "走 A：用 assets/ 里的模板 → scripts/build_xlsx.py 填数据 → 交付 .xlsx"
 elif result["can_write_file"] and result["has_openpyxl"]:
     level = "B"   # 能写文件但拿不到模板 → 用 openpyxl 按规格从零生成
-    note = "走 B：按 references/30-产物规格.md 用 openpyxl 从零生成 .xlsx"
+    note = "走 B：按 references/30-output-spec.md 用 openpyxl 从零生成 .xlsx"
 elif result["can_write_file"]:
     level = "C"   # 能写文件，但既无模板也无 openpyxl → 出 CSV
     note = "走 C：scripts/build_csv.py 生成 CSV（系统支持 .csv 导入）"

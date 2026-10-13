@@ -34,11 +34,11 @@
         ┌──────────────┬───────────┴────────┬──────────────┐
         ▼              ▼                    ▼              ▼
       A 填模板      B 从零生成            C 出 CSV       D 出 Markdown
-   build_xlsx.py  30-产物规格.md     build_csv.py   元提示词.md
+   build_xlsx.py  references/30-output-spec.md   build_csv.py   assets/meta-prompt.md
         └──────────────┴────────────────────┴──────────────┘
                                    │
                     ┌──────────────▼───────────────┐
-                    │ 单一真源：20-数据规范.md      │
+                    │ 单一真源：references/20-data-spec.md  │
                     │ （必填/成对/负数/一致性/红线） │
                     └──────────────────────────────┘
 ```
@@ -62,11 +62,11 @@
 
 AI 进仓库只读 **`SKILL.md`（唯一入口）**，然后按 LEVEL **只**加载需要的 2 个文件：
 
-- 每次都读：`references/20-数据规范.md`（校验口径）
+- 每次都读：`references/20-data-spec.md`（校验口径）
 - A：+ `scripts/build_xlsx.py`
-- B：+ `references/30-产物规格.md`
+- B：+ `references/30-output-spec.md`
 - C：+ `scripts/build_csv.py`
-- D：+ `assets/元提示词.md`
+- D：+ `assets/meta-prompt.md`
 
 避免一次性塞进所有规则 → 省上下文、也降低"读到过期内容"的概率。
 
@@ -81,7 +81,7 @@ AI 进仓库只读 **`SKILL.md`（唯一入口）**，然后按 LEVEL **只**加
 系统解析时**只跳过三种行**：空行 / 第 1 列以「示例」开头 / 第 1 列正好是「必填」。
 ⇒ **表头行以下任何非空文字都会被当成学员姓名建档**。
 
-这条红线在 `SKILL.md`（红线 4）、`references/20-数据规范.md`、`references/30-产物规格.md` 里各写了一遍 ——
+这条红线在 `SKILL.md`（红线 4）、`references/20-data-spec.md`、`references/30-output-spec.md` 里各写了一遍 ——
 因为它是**最容易犯、后果最脏**的错误（会静默建出一个"叫备注：…的学员"），
 历史上线上提示词里就有一条"在表格下面用「备注：」说明问题"的指令踩中了它。
 

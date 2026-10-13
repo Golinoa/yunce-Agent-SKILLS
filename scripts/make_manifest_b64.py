@@ -6,7 +6,7 @@
 - 隐蔽启动语不写明文网址：把 主机 / 组织 / 仓库 / 版本 四项打包成 base64，
   粘给 AI，由 AI 解码后拼出 ROOT，再去取 SKILL.md。
 - **每次发新版本（VERSION 变化）都要重新跑一次本脚本**，把新码替换进
-  assets/启动语-隐蔽版.md，否则 AI 会去取旧版本。
+  assets/starter-prompt-hidden.md，否则 AI 会去取旧版本。
 
 用法
     python3 scripts/make_manifest_b64.py
