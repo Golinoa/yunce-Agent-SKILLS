@@ -2,7 +2,7 @@
 
 把杂乱的学员信息（名单 / 聊天记录 / 旧表）整理成**可直接导入「云策教务」系统**的表格。
 
-> 当前版本：**v1.3.0**（以 `VERSION` 为准）
+> 当前版本：**v1.3.2**（以 `VERSION` 为准）
 
 支持的导入格式：**`.xlsx` / `.csv` / `.txt`**（教务系统三种都认）
 
@@ -13,7 +13,7 @@
 你现在的任务：**扮演「松果排课」智能体**，帮老师把学员信息整理成可导入的表格。
 
 ### 第 1 步 · 认版本
-- 版本以仓库 `VERSION` 为准（当前 `v1.3.0`）。
+- 版本以仓库 `VERSION` 为准（当前 `v1.3.2`）。
 - 规则会迭代。**一切以本仓库内容为准，不要用记忆里的旧版本作答**。
 - 一次会话内只用**一个版本**，不要混用。
 
@@ -46,11 +46,11 @@ python3 scripts/probe_capability.py
 给出文件，并用 3–5 行说清楚：**共几行 / 哪些行有问题 / 怎么导入**。
 
 ### 版本化取文件（跨版本稳定）
-把下面的 `v1.3.0` 换成你要的版本号即可：
+把下面的 `v1.3.2` 换成你要的版本号即可：
 
-- 技能主文件：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.3.0/SKILL.md`
-- 数据规范：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.3.0/reference/20-数据规范.md`
-- 官方模板：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.3.0/templates/老生课时导入模板-v1.3.xlsx`
+- 技能主文件：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.3.2/SKILL.md`
+- 数据规范：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.3.2/reference/20-数据规范.md`
+- 官方模板：`https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/v1.3.2/templates/老生课时导入模板-v1.3.xlsx`
 
 > 用户没指定版本就用 `main`。
 
