@@ -31,7 +31,7 @@ Example of how the two parts look once filled:
 
 ```text
   skillDoc.host : raw.githubusercontent.com
-  skillDoc.path : Golinoa/yunce-meta-prompt/main/SKILL.md
+  skillDoc.path : Golinoa/yunce-meta-prompt/v2.3.0/SKILL.md
 ```
 
 ---
