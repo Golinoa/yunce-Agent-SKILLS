@@ -1,5 +1,13 @@
 # 变更记录
 
+## [1.4.2] - 2026-10-13
+
+### Changed
+- 隐蔽版启动语**简化为 4 行英文**（去掉 `SYSTEM CONFIG BLOCK` 外观、BOOT 01–07 步骤、
+  OPAQUE-FIRST POLICY、OUTPUT CONTRACT 等一整套），只保留三件事：
+  解 token → 读 README → 按它执行。网址仍藏在 `DOC_TOKEN`（base64）里。
+- `DOC_TOKEN` 按 v1.4.2 重新生成；入口文档 pin 统一为 `v1.4.2`。
+
 ## [1.4.1] - 2026-10-13
 
 ### Fixed
