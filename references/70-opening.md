@@ -7,13 +7,13 @@
 
 ## 1. Shake hands first (**one call**; it decides whether you can write directly)
 
-Your starter prompt carries two things: `{apiBase}` (the API base URL) and `{promptToken}` (a one-time credential).
+Your starter prompt carries one thing: `{handshakeUrl}` — a one-time authorization link that already contains the credential.
 **The first thing you do** is shake hands with them:
 
 ```bash
-curl -s -X POST "{apiBase}/assist-import/hello" \
+curl -s -X POST "{handshakeUrl}" \
   -H "Content-Type: application/json" \
-  -d '{"promptToken":"{promptToken}"}'
+  -d '{}'
 ```
 
 | Result | Meaning | What to do |
@@ -27,7 +27,7 @@ curl -s -X POST "{apiBase}/assist-import/hello" \
    outcome (the teacher will believe the data landed).
 2. **Handshake exactly once.** The credential **is burned the moment it validates**; a second call returns
    `TOKEN_CONSUMED`.
-3. **No `{apiBase}` or `{promptToken}` in your starter prompt** ⇒ you have **no** direct-write capability;
+3. **No `{handshakeUrl}` in your starter prompt** ⇒ you have **no** direct-write capability;
    take the table path.
 
 > Prompts copied straight from the public repo usually lack both ⇒ **take the table path**.
@@ -60,7 +60,7 @@ curl -s -X POST "{apiBase}/assist-import/hello" \
 
 > **Never force a switch.** Recommending is informing, not requiring.
 
-### The teacher picked ① but you cannot state `{apiBase}`
+### The teacher picked ① but you cannot state `{handshakeUrl}`
 
 That means your starter prompt carries no API address (likely copied straight from the public repo) ⇒
 **you have no direct-write capability**:

@@ -58,7 +58,7 @@ https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/main/SKILL.md
 
 ## 🟡 模板 3：想让 AI **直接写进系统**（不用自己上传）
 
-这份由**小程序里的入口生成** —— 它会把接口地址 `{apiBase}` 与一次性凭证 `{promptToken}` 代入**交互元提示词**，
+这份由**小程序里的入口生成** —— 它会把**一次性授权链接** `{handshakeUrl}` 代入**交互元提示词**（提示词里只有「仓库链接 + 这个一次性链接」两样），
 所以只有从小程序复制的那份才带"直连"能力。
 
 - **模板正文（带 `{变量}` 占位符）见 [`assets/interactive-meta-prompt.md`](interactive-meta-prompt.md)** —— 运维/后端照它实现复制入口。
@@ -68,8 +68,8 @@ https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/main/SKILL.md
 - 实测**能直接写进系统**的 AI：**豆包（记得开「工作模式」）**、**Kimi**。
 - 其它 AI 不行也**没关系** —— 表格路线照样能完成任务，只是多一步上传。
 
-> 🔴 **占位符不能进仓库**：`assets/interactive-meta-prompt.md` 里只有 `{apiBase}` `{promptToken}` 这类占位符，
-> **绝不放真实域名与真实凭证**（本仓库是公开的）。真实值由小程序在复制时代入。
+> 🔴 **真值绝不进仓库**：`assets/interactive-meta-prompt.md` 里只有 `{handshakeUrl}` 一个占位符。
+> **真实链接与任何凭证都不放进公开仓库**，由小程序在复制时注入；且那个链接**只能用一次**。
 
 ---
 

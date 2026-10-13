@@ -83,8 +83,8 @@ docs/                         设计与运维同步清单
 
 - ⚠️ **本仓库是产物与文案的真源，不会自动同步线上**。线上生效的模板与提示词在运营后台
   `运营 / legacy-import-settings` 维护，需**重新上传/编辑**；对照清单见 [`docs/ops-checklist.md`](docs/ops-checklist.md)。
-- ⚠️ **接口域名（`{apiBase}`）与任何凭证都不在本仓库里** —— 它们由小程序在复制时代入。
-  **本仓库是公开的。** `assets/interactive-meta-prompt.md` 里只有 `{占位符}`，没有真实值。
+- ⚠️ **接口域名与任何凭证都不在本仓库里** —— 小程序复制时只往提示词里注入**一个一次性授权链接** `{handshakeUrl}`；
+  后续所有接口地址由**握手响应下发**（`apiBase`），AI 永远不自己拼接口路径。**本仓库是公开的。**
 - ⚠️ **发版三步**：改 `VERSION` + 在 `CHANGELOG.md` 记一条 + 把 `SKILL.md` /
   `assets/starter-prompt.md` / `assets/starter-prompt-hidden.md` 里钉的 tag 一起改掉，然后打 tag 推送。
 - ℹ️ 文件名已全部英文化（除老师会下载的 xlsx）：避免中文路径在 raw 链接里需要 URL 编码。

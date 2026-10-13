@@ -20,24 +20,25 @@
 
 ### Step 1 · Handshake (**done first, before anything else**)
 
-Your starter prompt carries a **one-time credential `{promptToken}`** — it proves
+Your starter prompt carries a **one-time authorization link `{handshakeUrl}`** — it proves
 "this instruction was copied by that teacher from the mini-program".
 
 ```bash
-curl -s -X POST "{apiBase}/assist-import/hello" \
+curl -s -X POST "{handshakeUrl}" \
   -H "Content-Type: application/json" \
-  -d '{"promptToken":"{promptToken}"}'
+  -d '{}'
 ```
 
 Success response:
 
 ```json
 { "sessionId":"...", "status":"CREATED", "available":true,
-  "organizationName":"...", "campusName":"...", "expiresAt":"..." }
+  "organizationName":"...", "campusName":"...", "expiresAt":"...",
+  "apiBase":"https://<server>" }
 ```
 
 **This one call does three things**: ① validates the credential and **burns it immediately**;
-② returns the `sessionId` (**everything downstream depends on it**); ③ proves you can send requests.
+② returns the `sessionId` (**everything downstream depends on it**); ③ returns `apiBase`, the base URL for every later call.
 
 - `200 available:true` ⇒ go to Step 2. `organizationName / campusName` may be used to confirm with the teacher verbally.
 - `403 FEATURE_DISABLED` ⇒ **stop**, switch to "produce a table" (see `references/50-error-handling.md`).
