@@ -6,7 +6,7 @@
     python3 probe_capability.py
 
 输出是一段**给 AI 看的判读结论**（`LEVEL=` 一行最关键），
-它会告诉你应该走 reference/10-能力与模式.md 里的哪一档。
+它会告诉你应该走 references/10-能力与模式.md 里的哪一档。
 """
 import json
 import os
@@ -15,7 +15,7 @@ import tempfile
 import urllib.request
 
 REPO_RAW = "https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/main"
-TEMPLATE_URL = f"{REPO_RAW}/templates/%E8%80%81%E7%94%9F%E8%AF%BE%E6%97%B6%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF-v1.3.xlsx"
+TEMPLATE_URL = f"{REPO_RAW}/assets/%E8%80%81%E7%94%9F%E8%AF%BE%E6%97%B6%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF-v1.3.xlsx"
 
 result = {
     "python": sys.version.split()[0],
@@ -68,10 +68,10 @@ template_ready = result["template_local"] or result["template_reachable"]
 
 if result["can_write_file"] and template_ready:
     level = "A"   # 最优：能写文件 + 拿得到模板 → 填模板出 xlsx（样式零漂移）
-    note = "走 A：用 templates/ 里的模板 → scripts/build_xlsx.py 填数据 → 交付 .xlsx"
+    note = "走 A：用 assets/ 里的模板 → scripts/build_xlsx.py 填数据 → 交付 .xlsx"
 elif result["can_write_file"] and result["has_openpyxl"]:
     level = "B"   # 能写文件但拿不到模板 → 用 openpyxl 按规格从零生成
-    note = "走 B：按 reference/30-产物规格.md 用 openpyxl 从零生成 .xlsx"
+    note = "走 B：按 references/30-产物规格.md 用 openpyxl 从零生成 .xlsx"
 elif result["can_write_file"]:
     level = "C"   # 能写文件，但既无模板也无 openpyxl → 出 CSV
     note = "走 C：scripts/build_csv.py 生成 CSV（系统支持 .csv 导入）"

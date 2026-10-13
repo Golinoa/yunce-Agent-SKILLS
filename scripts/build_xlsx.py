@@ -11,7 +11,7 @@
 
 用法
     python3 build_xlsx.py --data data.json --out 导入表.xlsx
-    python3 build_xlsx.py --data data.json --out 导入表.xlsx --template ./templates/老生课时导入模板-v1.3.xlsx
+    python3 build_xlsx.py --data data.json --out 导入表.xlsx --template ./assets/老生课时导入模板-v1.3.xlsx
 
 data.json 格式（9 列，顺序固定；后 3 列可省略，短行自动补空）
     {"rows": [
@@ -113,7 +113,7 @@ def main():
     a = ap.parse_args()
 
     if not os.path.exists(a.template):
-        sys.exit(f"[FAIL] 找不到模板：{a.template}（请从仓库下载 templates/ 下的模板）")
+        sys.exit(f"[FAIL] 找不到模板：{a.template}（请从仓库下载 assets/ 下的模板）")
     with open(a.data, "r", encoding="utf-8") as f:
         raw = json.load(f)
 
