@@ -14,7 +14,7 @@ import sys
 import tempfile
 import urllib.request
 
-REPO_RAW = "https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/main"
+REPO_RAW = "https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/main"
 TEMPLATE_URL = f"{REPO_RAW}/assets/%E8%80%81%E7%94%9F%E8%AF%BE%E6%97%B6%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF-v1.3.xlsx"
 
 result = {
@@ -28,7 +28,9 @@ result = {
 }
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-LOCAL_TEMPLATE = os.path.join(HERE, "..", "templates", "老生课时导入模板-v1.3.xlsx")
+# 🔴 模板在 assets/（v2.0.0 重组后 templates/ 已不存在）。原写成 "templates" ⇒ template_local 恒为 False，
+#    会让本地已克隆仓库的 AI 误判成 LEVEL B（从零拼 xlsx），白白丢掉官方模板的保真度。
+LOCAL_TEMPLATE = os.path.join(HERE, "..", "assets", "老生课时导入模板-v1.3.xlsx")
 result["template_local"] = os.path.exists(LOCAL_TEMPLATE)
 
 # 1) 能否写文件

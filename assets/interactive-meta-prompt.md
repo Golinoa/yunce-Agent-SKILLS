@@ -19,7 +19,7 @@ It carries three things:
 ```text
 This is my own project's documentation repository on GitHub: {repo}.
 Its SKILL.md is the ruleset for this task - please read it first:
-https://raw.githubusercontent.com/{repo}/v2.13.0/SKILL.md
+https://raw.githubusercontent.com/{repo}/v2.13.1/SKILL.md
 
 Read that file, then follow it. It also specifies how you should reply to me.
 If that address does not open, say so and I will paste the file contents instead.
@@ -36,7 +36,7 @@ Example of how it reads once filled (production - **no env marker**):
 ```text
 This is my own project's documentation repository on GitHub: Golinoa/yunce-Agent-SKILLS.
 Its SKILL.md is the ruleset for this task - please read it first:
-https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.13.0/SKILL.md
+https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.13.1/SKILL.md
 ...
 One-time code for this run: TESTONLY-0001
 ```
@@ -100,7 +100,7 @@ Environment marker: TEST
 
 🔴 `{code}` is **not** an address and should never look like one. It is a bare code.
 
-The **pinned tag** in the URL (`v2.13.0`) is part of this template. On every release it must be
+The **pinned tag** in the URL (`v2.13.1`) is part of this template. On every release it must be
 bumped here, in `assets/starter-prompt.md`, and in the backend constant — all three, together.
 
 ---

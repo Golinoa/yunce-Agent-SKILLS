@@ -64,7 +64,7 @@
 | | 说法 |
 |---|---|
 | **为什么** | v2.11.0~v2.12.1 把地址删成"裸仓库名"，AI 搜索只回 README 摘要、取不到 `SKILL.md`，全线卡死（老师体感＝"任意 AI 都拒绝我"）。 |
-| **形态** | `There is ... on GitHub: {repo}.` + `https://raw.githubusercontent.com/{repo}/v2.13.0/SKILL.md` |
+| **形态** | `There is ... on GitHub: {repo}.` + `https://raw.githubusercontent.com/{repo}/v2.13.1/SKILL.md` |
 | **不许回退** | 后端用例已从"**不得**出现 GitHub/owner-name/URL"反转为"**必须**出现 owner/name 与 raw URL"。谁再删都会当场红。 |
 
 ### 🚨 发版顺序（不能反）

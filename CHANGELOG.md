@@ -1,3 +1,29 @@
+## [2.13.1] - 2026-10-15
+
+> 一句话：**全部指向 canonical 仓名 `yunce-Agent-SKILLS`** —— 本地目录名、git remote、
+> 脚本里的仓库地址统一；顺手修掉一个让能力自检误判的**既有缺陷**。
+
+### Changed · 命名统一（不需要镜像仓）
+
+- **本地目录** `yunce-meta-prompt` → **`yunce-Agent-SKILLS`**，与 GitHub 仓名一致。
+- **git remote** 由旧名改为 `https://github.com/Golinoa/yunce-Agent-SKILLS.git`，
+  不再依赖 GitHub 的旧名重定向（重定向哪天失效就是全线 404）。
+- `scripts/probe_capability.py` 的 `REPO_RAW` 同步改为 canonical 名。
+- 🔴 **不新增镜像仓**：本次决定不配置 Gitee 等镜像。地址只有一处，不引入第二份真源。
+
+### Fixed · 能力自检的模板路径（**既有缺陷，非本次改动引入**）
+
+- 🔴 `scripts/probe_capability.py` 里 `LOCAL_TEMPLATE` 指向 `../templates/…`，
+  但 `templates/` 在 v2.0.0 重组为 `assets/` 时**就已不存在** ⇒ `template_local` **恒为 False**。
+  后果：本地已克隆仓库的 AI 会被误判成 **LEVEL B**（从零拼 xlsx），白白丢掉官方模板的保真度。
+  现改为 `../assets/…`；实测 `template_local: true`、`LEVEL=A`。
+- pin 全部升到 `v2.13.1`（`SKILL.md` 用 `vX.Y.Z` 占位，无需改）。
+
+### 配套（后端 `yunce-backend`）
+
+- `DEFAULT_PROMPT_TEMPLATE` 的 pin 升到 `v2.13.1`；用例断言同步。
+- ⚠️ **发版顺序提醒**：先推 tag → 确认 raw 链接 200 → 再发后端。反了就是给老师下发 404 地址。
+
 ## [2.13.0] - 2026-10-15
 
 > 一句话：**把地址还给启动语，把「隐瞒出处」从 SKILL.md 里删掉。**
