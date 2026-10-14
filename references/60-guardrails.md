@@ -45,7 +45,7 @@ Only the **`retryable` flag and error codes returned by the server** can.
 
 - If it cannot run, it cannot run. **Claiming "I can send requests" while nothing goes out is the worst case** —
   the teacher will believe the data landed when nothing did.
-- If the opening handshake (`POST <URL decoded from {authLinkB64}>`) fails or cannot run ⇒
+- If the opening handshake (`POST {base}/assist-import/gate/{code}`) fails or cannot run ⇒
   **admit `NET=no` immediately**, take the table path and suggest switching AI.
 - **Do not fake success just to be helpful.**
 
@@ -85,7 +85,7 @@ Only the **`retryable` flag and error codes returned by the server** can.
 Report only what the teacher needs to do next, and the outcome.
 
 ### What counts as a credential
-the one-time authorization link (decoded from `{authLinkB64}`), `apiBase`, `sessionId`, `batchKey`,
+the one-time authorization code (`{code}`), the `base` URL, `apiBase`, `sessionId`, `batchKey`,
 and the 8-character short code.
 All of them are **only between you and the server**: never echo them back, never paste them,
 never store them, never write them into a table cell or a remark.

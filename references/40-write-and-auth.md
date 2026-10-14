@@ -22,11 +22,12 @@
 
 Join the parts as `https://<host>/<path>`. The credential lives inside the path.
 
-Your starter prompt carries `{authLinkB64}` — a base64 string that decodes to a full one-time authorization URL. It proves
+Your starter prompt carries a one-time authorization `{code}`. Joined to the `base` fixed in this
+repo it forms the handshake URL - it proves
 "this instruction was copied by that teacher from the mini-program".
 
 ```bash
-curl -s -X POST "<URL decoded from {authLinkB64}>" \
+curl -s -X POST "{base}/assist-import/gate/{code}" \
   -H "Content-Type: application/json" \
   -d '{}'
 ```

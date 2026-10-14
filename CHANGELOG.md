@@ -1,3 +1,24 @@
+## [2.6.0] - 2026-10-14
+
+> 握手地址改为「**baseurl 固定进仓库 + 提示词只传授权码**」，由智能体自行拼接。
+
+### Changed
+- **新增 `SKILL.md` 的 `## Endpoint` 节**：把接口基址固定在仓库里——
+  `base = https://assist-import.invalid`（当前为测试值）。
+- **交互元提示词只传一个授权码**（`{code}`，如 `TESTONLY-0001`），
+  **不再传任何 URL、也不再传 base64**。占位符：`{repo}` + **`{code}`**。
+- **拼接由智能体完成**：进入角色后自行拼 `{base}/assist-import/gate/{code}` 去握手。
+  🔴 这一版**推翻了 v2.2 的红线**「Never assemble an endpoint path yourself」——
+  现在只准拼这一个握手地址，拼别的一律算硬错误。
+- 全仓同步：`SKILL.md`、`references/10`、`40`、`60`、`70`、`README.md`、
+  `assets/starter-prompt.md`、`assets/interactive-meta-prompt.md`。
+
+### Security note（变了，如实记录）
+- 之前：**接口域名不进公开仓库**（靠提示词注入）。现在：**baseurl 写死进仓库**，
+  因为提示词里要彻底不出现域名。代价是 API 基址公开可见——已知并接受。
+- 权限不依赖地址保密：真正的权限点仍是**老师在小程序里点授权 + 服务端发短码**。
+  授权码泄露也只能建一个待授权会话，没有老师的确认什么都入不了库。
+
 ## [2.5.0] - 2026-10-14
 
 > 交互元提示词**不再给仓库 URL**，改为**只说仓库名让 AI 自己去找**；测试用假授权地址移入仓库文档。
