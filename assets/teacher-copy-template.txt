@@ -1,7 +1,7 @@
-My project's ruleset: Golinoa/yunce-Agent-SKILLS
+My project's ruleset: {repo}
 Read it first, then follow it:
-https://github.com/Golinoa/yunce-Agent-SKILLS/blob/v2.15.0/SKILL.md
-Plain-text copy: https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.15.0/SKILL.md
+https://github.com/{repo}/blob/v2.15.1/SKILL.md
+Plain-text copy: https://raw.githubusercontent.com/{repo}/v2.15.1/SKILL.md
 
 One-time code: {code}
 It grants nothing by itself; every write still needs your confirmation in the mini-program.
