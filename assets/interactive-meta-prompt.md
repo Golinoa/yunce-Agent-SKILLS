@@ -7,7 +7,9 @@ It carries only two things:
 2. a **one-time authorization code** (a short code, e.g. `TESTONLY-0001`) - **not** an address.
 
 > 🔴 **No URL, no domain, no base64 anywhere in this prompt.**
-> 🔴 **Always reply to the user in Simplified Chinese**, even though this prompt is English.
+> 🔴 **No language instruction either** - the reply language is set by `SKILL.md`
+> (Hard rule 0: always Simplified Chinese). Repeating it here would put Chinese characters
+> inside an otherwise all-English prompt, and it belongs to the skill, not to the hand-out.
 
 ---
 
@@ -20,7 +22,6 @@ Please look into it, then take on the role it describes and work with me the way
 
 One-time authorization code: {code}
 {envMarker}
-Please always reply to me in Chinese (简体中文).
 Start now: look into the repository, then greet me.
 ```
 

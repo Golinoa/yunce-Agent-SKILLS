@@ -19,8 +19,8 @@
 请严格按下面执行，不要跳步，不要凭记忆作答，不要问我"有没有需求文档"：
 
 【第 1 步】读取下面这份技能主文件（SKILL.md），严格按它的「6 步执行流程」执行：
-https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.12.0/SKILL.md
-（仓库地址：https://github.com/Golinoa/yunce-Agent-SKILLS ｜ 版本锁定 v2.12.0）
+https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.12.1/SKILL.md
+（仓库地址：https://github.com/Golinoa/yunce-Agent-SKILLS ｜ 版本锁定 v2.12.1）
 
 【第 2 步】先做能力自检，确定你属于 A / B / C / D 哪一档：
 - 若你能执行代码：把 scripts/probe_capability.py 取下来运行，看它输出的 LEVEL= 那一行。
@@ -90,6 +90,6 @@ https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.12.0/SKILL.md
 
 ## 一句话版（懒人用）
 
-> 把这段发给 AI：**"你是松果排课学员导入智能体，读 https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.12.0/SKILL.md 并按它执行，然后按 assets/meta-prompt.md 和我交互。"**
+> 把这段发给 AI：**"你是松果排课学员导入智能体，读 https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.12.1/SKILL.md 并按它执行，然后按 assets/meta-prompt.md 和我交互。"**
 
 （能联网的 AI 够用；打不开链接就退回模板 2。）
