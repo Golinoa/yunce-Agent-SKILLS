@@ -118,11 +118,17 @@ curl -s -X POST "{apiBase}/assist-import/batches/{batchKey}/rows" \
 | `subject` / `remainHours` / `validUntil` | optional; subject and remaining lessons are **a pair** |
 | `payAmount` / `remark` | optional |
 
-- **Max 500 rows**; exceeding returns `400 BATCH_TOO_LARGE` ⇒ ask the teacher to split into batches.
-- Returns `{"accepted":n,"rejected":[{"rowNo":..,"reason":".."}]}`.
-- 🔴 **Idempotent**: re-submitting the same `batchKey` **overwrites the whole batch**, it does not duplicate
-  students. So **retrying after a failure is safe**.
-- Rate limit: at most **5 submissions per batch within 15 minutes**.
+- **Max 500 rows per call**; exceeding returns `400 BATCH_TOO_LARGE` ⇒ send the rest in another call.
+- Returns `{"accepted":n,"inserted":n,"replaced":n,"rejected":[{"rowNo":..,"reason":".."}]}`.
+- 🔴 **Incremental by `rowNo`** — this is what makes retries *and* batching both safe:
+  - re-sending a `rowNo` you already sent **replaces** that row (fix a mistake in place);
+  - a `rowNo` you did **not** send this time is **left alone** (so a second call does not wipe the first).
+
+  Keep `rowNo` **stable and unique** across all your calls for one batch — it is the identity the
+  server merges on. Never renumber between calls, or you will duplicate students.
+- 🔴 **Whole-batch ceiling is 2000 rows per batch.** Exceeding returns `BATCH_TOO_LARGE`; do not loop.
+- Rate limit: at most **12 submissions per batch within 15 minutes** — enough for 4 slices plus one
+  retry each. Getting `RATE_LIMITED` means you were too fast; **wait and retry, never re-slice**.
 
 ### Step 6 · Ask the teacher to confirm
 

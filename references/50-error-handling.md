@@ -43,7 +43,8 @@ Every server error returns:
 | `AUTH_CONSUMED` | short code already used | no retry, **authorize again** | 「刚才那串码用过了，需要再授权一次：打开小程序刷新首页，把新的短码发我」 |
 | `CODE_MISMATCH` | short code does not match | no retry | 「短码好像没对，麻烦你回小程序页面再看一眼，整串发我（8 位）」 |
 | `SESSION_REVOKED` | this authorization was revoked | no retry, **authorize again** | 「这次授权被撤回了，需要重新走一遍：打开小程序刷新首页 → 授权 → 把短码发我」 |
-| `SESSION_NOT_AUTHORIZED` | the teacher has not finished authorizing | **wait for them**, do not retry on your own | 「还没看到你的授权，麻烦打开小程序刷新一下首页，弹出来的框点一下授权」 |
+| `SESSION_NOT_AUTHORIZED` | the teacher has not finished authorizing | **wait for them**, do not retry on your own | 「还没看到你的授权，麻烦打开小程序刷新一下首页、弹出来的框点一下授权」 |
+| `DATA_NOT_READY` | the teacher **has** authorized, your rows are still uploading | **wait**, then retry the read | 「名单还在传过来，到了我马上显示。等一下再看就行」 |
 | `IDENTITY_MISMATCH` | authorizing account ≠ roster owner | **stop** | 「授权用的账号和这批名单对不上，我没法继续。麻烦你在小程序里用本人的账号再授权一次」 |
 | `NOT_OWNER` | not the batch initiator | **stop** | 「这批名单不是当前账号建的，我看不到。请用当初发起的那台设备/账号操作」 |
 | `BATCH_TOO_LARGE` | over 500 rows | no retry | 「一次最多 500 人，我们分两批发吧。先发前 500 个？」 |
