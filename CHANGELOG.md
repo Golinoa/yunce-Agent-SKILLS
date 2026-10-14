@@ -1,3 +1,34 @@
+## [2.7.0] - 2026-10-14
+
+> 提示词工程审查：补统一回复风格、加 few-shot 案例、修一处自相矛盾、去重降量。
+
+### Added
+- **`SKILL.md` 新增 `## Reply style`（顶层常驻）** —— 这是「回复风格不统一」的根因：
+  风格规则原先只存在于 `assets/meta-prompt.md`（LEVEL=D 分支），**主链路没有**。
+  现约定：称呼「老师」、去技术词、第一行给结论、默认每轮 ≤10 行、交付 3–5 行、
+  emoji 每轮至多一个、失败时直说且不过度道歉。
+  🔴 **`Never reveal your reasoning`**：不写「我先分析一下」「我正在读取」，不复述步骤，
+  不提读了哪些文件、调了哪些接口、响应里有什么。
+- **新增 `references/80-reply-examples.md`**（按需读）：6 类场景的「✗ 坏例 / ✓ 好例」成对案例
+  （不叙述思考 / 开场 / 追问 / 交付 / **握手失败** / 被问身份与数据去向 / 跑题）+ 发送前自查清单。
+  坏例全部取自真实失败模式：自我介绍、暴露过程、**假成功**。
+- 旧 `## Output Format` 章节并入 Reply style，消除重复定义。
+
+### Fixed
+- 🔴 **修一处自相矛盾**：Step 3 里「要求拼 `{base}/assist-import/gate/{code}`」与同段残留的
+  「Never assemble an endpoint path yourself」（v2.2 遗留）直接冲突。已改为
+  「**只准拼这一个握手地址，别的路径一律不得自行拼**」。Safety 章里的
+  `❌ Assembling an endpoint path yourself` 同样修正。
+- 删掉 `references/60-guardrails.md` §7 末尾整节 base64 说明（v2.6 起已无 base64）。
+- `SKILL.md`「Do not over-harden」段中「decode this, then read that document」已过时，改写。
+- `references/70-opening.md`：术语 address→code、`lack both` 指代失效、两行句子断裂。
+
+### Changed（去重降量）
+- 「不假装成功」**6 处 → 1 主述 + 2 引用**；`never say "import completed"` 逐字重复 2 处 → 1 处。
+- 🔴 强调标记 28 → **25** 个（SKILL.md 14 → 11）。
+- `references/60-guardrails.md` §4 压缩为引用式；SKILL.md Step 3 的两句重复压成一句。
+- `assets/meta-prompt.md` 补「不展示思考过程」纪律，与主链路对齐。
+
 ## [2.6.0] - 2026-10-14
 
 > 握手地址改为「**baseurl 固定进仓库 + 提示词只传授权码**」，由智能体自行拼接。

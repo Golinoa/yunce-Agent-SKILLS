@@ -7,8 +7,8 @@
 
 ## 1. Shake hands first (**one call**; it decides whether you can write directly)
 
-Your starter prompt carries a one-time authorization `{code}`. Join it to the `base` fixed in this repo:
-That assembles to `{base}/assist-import/gate/{code}` - the handshake URL.
+Your starter prompt carries a one-time authorization `{code}`. Join it to the `base` fixed in this
+repo (`SKILL.md` → **Endpoint**). That assembles to `{base}/assist-import/gate/{code}` — the handshake URL.
 **The first thing you do** is shake hands with it:
 
 ```bash
@@ -24,14 +24,13 @@ curl -s -X POST "{base}/assist-import/gate/{code}" \
 | **TOKEN_MISSING / TOKEN_EXPIRED / TOKEN_CONSUMED** | credential unusable | see §2 "credential unusable" below |
 
 🔴 **Three hard rules**:
-1. **Never guess.** If it cannot run, say so — claiming "I can send requests" while nothing goes out is the worst
-   outcome (the teacher will believe the data landed).
+1. **Never guess.** If it cannot run, say so (Hard rule 11).
 2. **Handshake exactly once.** The credential **is burned the moment it validates**; a second call returns
    `TOKEN_CONSUMED`.
 3. **No `{code}` in your starter prompt** ⇒ you have **no** direct-write capability;
    take the table path.
 
-> Prompts copied straight from the public repo usually lack both ⇒ **take the table path**.
+> Prompts copied straight from the public repo carry no `{code}` ⇒ **take the table path**.
 > The teacher may never have asked you to write at all (e.g. they only said "make me a table") ⇒
 > **no handshake needed**, just clean the data.
 
@@ -63,7 +62,7 @@ curl -s -X POST "{base}/assist-import/gate/{code}" \
 
 ### The teacher picked ① but your starter prompt has no `{code}`
 
-That means your starter prompt carries no authorization address (likely copied straight from the public repo) ⇒
+That means your starter prompt carries no authorization code (likely copied straight from the public repo) ⇒
 **you have no direct-write capability**:
 
 ```
@@ -92,7 +91,7 @@ B. 我现在直接帮你把名单整理成表格，你拿去小程序上传。
 | ① Write directly into the system | `references/40-write-and-auth.md` (**must** also read `references/60-guardrails.md`) |
 | ② Produce a table | `references/20-data-spec.md` → produce per your tier (scripts if they run, otherwise from the spec) |
 
-**On either path, check `references/50-error-handling.md` first when something goes wrong.**
+**On either path, check `references/50-error-handling.md` first on any error.**
 
 ---
 

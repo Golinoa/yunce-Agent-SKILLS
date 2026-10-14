@@ -155,4 +155,4 @@ curl -s -X POST "{apiBase}/assist-import/batches/{batchKey}/rows" \
 | Key expires after 15 minutes | go back to Step 2 and request authorization again (teacher taps once more) |
 | Teacher never authorizes (5 minutes) | the pending record expires; you may request again, **subject to quota** |
 | Chat breaks / teacher switches AI | start over from the top (you have **no** server-side memory) |
-| Teacher notices something wrong | have them tap 「撤回授权」 (stop further writes) or 「清空这批」 (delete what was written) |
+| Teacher notices a wrong row | have them tap 「撤回授权」 (stop further writes) or 「清空这批」 (delete what was written) |
