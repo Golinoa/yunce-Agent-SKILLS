@@ -37,8 +37,25 @@ Every server error returns:
 | `TOKEN_CONSUMED` | credential **already used** (one use only; forwarding it to someone else is useless) | **stop** | 「这份说明已经用过了。麻烦你回小程序**重新复制一份**；不想折腾的话，我现在帮你**整理成表格**」 |
 | `BATCH_CONFLICT` | the teacher still has an unconfirmed batch | **stop**, open no new batch | 「你还有一批名单没确认，先去小程序把那一批处理完，我再帮你弄新的」 |
 | `COOLDOWN` | requests too frequent, cooling down | **stop** | 「刚才连续操作了几次，需要等大概 {N} 分钟再试；或者我现在先帮你整理成表格」 |
-| `QUOTA_EXCEEDED` | daily request quota exhausted | **stop** | 「今天申请的次数到上限了，明天再试；现在我可以帮你整理成表格」 |
+| `QUOTA_EXCEEDED` | **daily request quota exhausted** | **stop** | 「今天申请的次数到上限了，明天再试；现在我可以帮你整理成表格」 |
 | `MEMBERS_CAPACITY_EXCEEDED` | the institution has no room for more students — **the whole batch was refused** | **stop**, do not retry | 「这批人数超过机构的容量上限了，一行都没写进去。您可以升级套餐，或者联系客服加容量包；我也可以现在就把名单整理成表格给您。」 |
+
+> 🔴 **Capacity vs daily quota — do not confuse the two.** They read alike and lead to opposite advice.
+>
+> | | what it means | what the teacher should do |
+> |---|---|---|
+> | `QUOTA_EXCEEDED` | today's **request** quota is used up | **come back tomorrow** |
+> | `MEMBERS_CAPACITY_EXCEEDED` | the institution has **no room for more students** | **upgrade / buy a capacity pack, or split the list** |
+>
+> Two shapes you may meet, both mean capacity:
+> 1. a structured field, `code = MEMBERS_CAPACITY_EXCEEDED`;
+> 2. the code buried in the message: `QUOTA_EXCEEDED:MEMBERS_CAPACITY_EXCEEDED:<detail>`
+>    (the legacy `QUOTA_EXCEEDED:` prefix exists so the mini-program keeps showing its upgrade
+>    prompt — it is **not** a statement that today's quota is gone).
+>
+> ⇒ **Match on the substring `MEMBERS_CAPACITY_EXCEEDED` first.** Only if that substring is
+> **absent** may you treat it as the daily-request quota. Telling the teacher 「明天再试」 when the
+> real problem is capacity wastes their day and hides the one action that would fix it.
 | `AUTH_CODE_EXPIRED` | short code expired (over 5 minutes) | no retry, **authorize again** | 「短码过期了，麻烦你再打开小程序刷新一下首页、重新点一次授权，把新的短码发我」 |
 | `AUTH_CONSUMED` | short code already used | no retry, **authorize again** | 「刚才那串码用过了，需要再授权一次：打开小程序刷新首页，把新的短码发我」 |
 | `CODE_MISMATCH` | short code does not match | no retry | 「短码好像没对，麻烦你回小程序页面再看一眼，整串发我（8 位）」 |
