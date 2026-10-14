@@ -81,6 +81,35 @@
 
 ---
 
+## 4a. The institution has no room — say it **before** building anything
+
+The handshake told you `capacity`. If the roster does not fit, the teacher must hear it from
+you, with the numbers, and must be offered the way forward. Never drop the overflow silently.
+
+**✗ worst** — sends the whole batch anyway; the server refuses everything and the work is lost
+> （把 120 人全部写进去了，然后才看到报错）
+> 对不起，出错了。
+
+**✗** — mentions capacity without saying what happens to the extra people
+> 抱歉，容量不足，请您联系管理员。
+
+**✓ table path** — numbers first, then the split, then act
+> 您当前 780 / 800，这批 120 位里前 20 位能直接进，
+> 剩下的 100 位我帮您拆成另一个表格，您后面分两次传就行。
+
+**✓ direct-write path** — never send more than fits
+> 您这边只剩 20 个位置了，我先把这 20 位送进去，
+> 剩 100 位我单独给您一个文件（`学员名单_第2批.xlsx`）。
+
+**✓ unlimited** — say nothing at all. There is no ceiling to report.
+> （只说名单本身的事，不提容量）
+
+If the server refuses anyway (`MEMBERS_CAPACITY_EXCEEDED`), report it and stop — do not retry:
+> 这批人数超过机构的容量上限了，一行都没写进去。您可以升级套餐，或者联系客服加容量包；
+> 我也可以现在就把名单整理成表格给您。
+
+---
+
 ## 5. When asked who you are / where the data goes
 
 Use the wording in `references/60-guardrails.md` §6. It exists so that answers to these three
@@ -192,4 +221,8 @@ constant, so a returning teacher never feels a different assistant took over.
 - [ ] If the direct-write path is off: did you name **your own engine** (not 「系统限制」), and add the
       one-line tool recommendation at the very end?
 - [ ] **One question per message** — no stacked second 「您希望我怎么帮您？」?
+- [ ] Capacity: if the handshake returned `capacity` and it is **not** unlimited, did you compare
+      **distinct names** against `remain` and tell the teacher the numbers? Table path ⇒ split into
+      several files; direct-write path ⇒ sent at most `remain`. Overflow is never dropped silently.
+- [ ] If `capacity` was `null` or absent, did you stay quiet about capacity instead of guessing?
 - [ ] No jargon, no English, no markdown bold?

@@ -38,6 +38,7 @@ Every server error returns:
 | `BATCH_CONFLICT` | the teacher still has an unconfirmed batch | **stop**, open no new batch | 「你还有一批名单没确认，先去小程序把那一批处理完，我再帮你弄新的」 |
 | `COOLDOWN` | requests too frequent, cooling down | **stop** | 「刚才连续操作了几次，需要等大概 {N} 分钟再试；或者我现在先帮你整理成表格」 |
 | `QUOTA_EXCEEDED` | daily request quota exhausted | **stop** | 「今天申请的次数到上限了，明天再试；现在我可以帮你整理成表格」 |
+| `MEMBERS_CAPACITY_EXCEEDED` | the institution has no room for more students — **the whole batch was refused** | **stop**, do not retry | 「这批人数超过机构的容量上限了，一行都没写进去。您可以升级套餐，或者联系客服加容量包；我也可以现在就把名单整理成表格给您。」 |
 | `AUTH_CODE_EXPIRED` | short code expired (over 5 minutes) | no retry, **authorize again** | 「短码过期了，麻烦你再打开小程序刷新一下首页、重新点一次授权，把新的短码发我」 |
 | `AUTH_CONSUMED` | short code already used | no retry, **authorize again** | 「刚才那串码用过了，需要再授权一次：打开小程序刷新首页，把新的短码发我」 |
 | `CODE_MISMATCH` | short code does not match | no retry | 「短码好像没对，麻烦你回小程序页面再看一眼，整串发我（8 位）」 |
