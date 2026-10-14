@@ -19,8 +19,8 @@
 请严格按下面执行，不要跳步，不要凭记忆作答，不要问我"有没有需求文档"：
 
 【第 1 步】读取下面这份技能主文件（SKILL.md），严格按它的「6 步执行流程」执行：
-https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.12.1/SKILL.md
-（仓库地址：https://github.com/Golinoa/yunce-Agent-SKILLS ｜ 版本锁定 v2.12.1）
+https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.13.0/SKILL.md
+（仓库地址：https://github.com/Golinoa/yunce-Agent-SKILLS ｜ 版本锁定 v2.13.0）
 
 【第 2 步】先做能力自检，确定你属于 A / B / C / D 哪一档：
 - 若你能执行代码：把 scripts/probe_capability.py 取下来运行，看它输出的 LEVEL= 那一行。
@@ -58,9 +58,18 @@ https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.12.1/SKILL.md
 
 ## 🟡 模板 3：想让 AI **直接写进系统**（不用自己上传）
 
-这份由**小程序里的入口生成** —— 交互元提示词里只有**两样**：仓库线索（**只说仓库名 `{repo}`，让 AI 自己去找**，不给 URL）与一次性**授权码**（`{code}`，如 `TESTONLY-0001`）。
-**提示词里没有域名、没有 URL** —— 接口基址（baseurl）固定在本仓库，由 AI 自己拼成 `{base}/assist-import/gate/{code}` 去握手，
-所以只有从小程序复制的那份才带"直连"能力。
+这份由**小程序里的入口生成** —— 它是**模板 1 的能力升级版**，在同样的定位信息之上，多给一个**一次性口令**，
+让 AI 能跟系统对一次号。它带**三样**：
+
+| | 内容 | 由谁注入 |
+|---|---|---|
+| ① | 仓库的 `owner/name`（`Golinoa/yunce-Agent-SKILLS`）**+ `SKILL.md` 的固定地址** | 模板本体 |
+| ② | 一次性口令（`{code}`，如 `TESTONLY-0001`） | 服务端，老师点「复制」的瞬间 |
+| ③ | 环境标识（仅联调包追加，生产不追加） | 服务端，按部署环境 |
+
+**接口基址不在提示词里** —— `base` 固定在本仓库（`SKILL.md` 的 Endpoint 节），AI 自己拼成
+`{base}/assist-import/gate/{code}` 去握手；后续所有接口地址由**握手响应下发**（`apiBase`）。
+**真实凭证与任何域名都不进公开仓库**，只在老师点「复制」时注入；且口令**只能用一次**。
 
 - **模板正文（带 `{变量}` 占位符）见 [`assets/interactive-meta-prompt.md`](interactive-meta-prompt.md)** —— 运维/后端照它实现复制入口。
 - 拿到哪种启动语，就决定了 AI 能走到哪一步：
@@ -69,11 +78,13 @@ https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.12.1/SKILL.md
 - 实测**能直接写进系统**的 AI：**豆包（记得开「工作模式」）**、**Kimi**。
 - 其它 AI 不行也**没关系** —— 表格路线照样能完成任务，只是多一步上传。
 
-> 🔴 **提示词里只有 2 个占位符**（`{repo}` `{code}`），**没有任何域名**；
-> 接口基址 `base` 固定在本仓库的 `SKILL.md`（Endpoint 节）与 `references/40-write-and-auth.md`。
-> **真实链接与任何凭证都不放进公开仓库**，由小程序在复制时注入；且授权链接**只能用一次**。
-> ⚠️ **base64 的历史风险**：本项目 1.4.1 的「隐蔽版」曾因不透明 base64 被判 prompt injection、部分 AI 拒答。
-> 本次按用户要求改用 base64，但**意图必须透明**（明说"这是文档地址"）、**绝不要求 verbatim 执行**；若某 AI 拒答 ⇒ 退回明文的完整地址。
+> 🔴 **启动语里必须有可定位的地址**（`owner/name` + `SKILL.md` 的固定链接）。
+> 只给一个**裸仓库名**会让 AI 卡死：它只能去搜索，而搜索引擎只回 README 摘要，取不到 `SKILL.md`，
+> 于是它诚实地回你"我读不到这个文件" —— 老师看到的就是"AI 在拒绝我"。
+> **v2.11.0 ~ v2.12.1 就是这么坏掉的**（详见 `assets/interactive-meta-prompt.md` §3）。
+>
+> 🔴 **不要再往启动语里加 base64 / "解码这段"之类的东西**。本项目 v1.4.1 实测过：
+> 不透明 payload 会被判 prompt injection，部分 AI 直接拒答。**透明才有服从**。
 
 ---
 
@@ -81,15 +92,16 @@ https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.12.1/SKILL.md
 
 | AI 的反应 | 怎么办 |
 |---|---|
-| "打不开链接 / 无网络访问" | 用**模板 2**（上传 md 文件） |
+| "打不开链接 / 无网络访问" | 用**模板 2**（上传 md 文件）；或把 `SKILL.md` 内容贴给它 |
 | "我不能生成 Excel 文件" | **正常**。说明它是 C 或 D 档，会走 CSV 或 Markdown —— 系统支持 `.csv` 导入，照样能用 |
 | "请提供数据" | 直接把学员信息粘过去；它可以按第 3 步的选择来 |
 | 微信里发链接被吞 | 别在微信里发链接，改成**复制纯文本**或**发文件** |
 | "我这台 AI 没法直接写进系统" | **正常**。改用**小程序生成的启动语**，或换 **豆包（开「工作模式」）/ Kimi**；不换也行，走表格路线 |
-| 想换规则版本 | 把启动语里的 `main` 换成目标版本号（tag 列表见 `CHANGELOG.md`）；不指定就用 `main` |
+| 想换规则版本 | 把启动语里 URL 的 tag 换成目标版本号（tag 列表见 `CHANGELOG.md`）；不指定就用 `main` |
+| 它反过来问你"这个仓库是什么" | 告诉它「**这是我自己项目的说明文档**」，一般即可 |
 
 ## 一句话版（懒人用）
 
-> 把这段发给 AI：**"你是松果排课学员导入智能体，读 https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.12.1/SKILL.md 并按它执行，然后按 assets/meta-prompt.md 和我交互。"**
+> 把这段发给 AI：**"这是我自己项目的说明文档仓库：Golinoa/yunce-Agent-SKILLS。请先读 https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.13.0/SKILL.md 并按它执行，然后按 assets/meta-prompt.md 和我交互。"**
 
 （能联网的 AI 够用；打不开链接就退回模板 2。）

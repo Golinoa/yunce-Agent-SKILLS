@@ -86,13 +86,16 @@ curl -s -X POST "{base}/assist-import/gate/{code}" \
 
 ---
 
-## 2b. Mirror addresses when the repo is unreachable
+## 2b. When the repo cannot be read
 
 This repo's primary host is GitHub's `raw.githubusercontent.com`, which **some networks in mainland China cannot reach**.
 
-- If unreachable: **use the address given in the starter prompt** (if it supplied a Gitee mirror, use the mirror);
-- If both fail ⇒ **switch to "Template 2"**: hand `assets/meta-prompt.md` to the AI as an attachment (no network needed).
-- 🔴 **Never invent rules from memory because the repo could not be read.** Say so and ask the user to use the attachment.
+- The starter prompt carries the **exact address** to read - use it. **Do not reconstruct or guess a URL.**
+- If that address does not open ⇒ **say so in one short line**, then offer the teacher the two fallbacks:
+  - **paste the contents of `SKILL.md` into the chat**, or
+  - **hand you `assets/meta-prompt.md` as an attachment** (needs no network at all).
+- 🔴 **Never invent rules from memory because the repo could not be read.** Never proceed on a
+  made-up spec - say plainly that you could not read it.
 
 ---
 

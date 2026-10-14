@@ -1,3 +1,69 @@
+## [2.13.0] - 2026-10-15
+
+> 一句话：**把地址还给启动语，把「隐瞒出处」从 SKILL.md 里删掉。**
+> 起因：用户实测「某个版本还能跑，迭代几个版本后任意 AI 都拒绝我」。定位于 **v2.10.0 → v2.11.0**。
+
+### Fixed · 定位线索（本次的主因）
+
+- 🔴 **启动语恢复 `owner/name` + `SKILL.md` 的固定链接。**
+  v2.11.0 把线索删成「只说仓库名让 AI 自己去找」，实测**全线卡死**：
+  只给裸名 ⇒ AI 只能搜索 ⇒ 搜索引擎只回 README 摘要（带 tag 的裸文本路径不被索引）⇒
+  取不到 `SKILL.md` ⇒ 回老师一句"我读不到这个文件" ⇒ 老师体感＝"任意 AI 都在拒绝我"。
+  v2.5.0 的假设「主流 AI 都能按名字找到公开仓库」**被实测证伪**：搜到仓库 ≠ 取到 tag 下的裸文件。
+- 🔴 **明说这是用户自己的项目文档**（`This is my own project's documentation repository on GitHub: {repo}`）——
+  给出来源与归属，把"未知来源的外部指令"变回"用户自己的文档"。
+  同时去掉 `open-source repository by Golinoa named ...` 这种**匿名权威**句式。
+- 🔴 **不再把地址当秘密。** 仓库本就公开：实测不用任何 AI、3 秒 curl 就能取到 `SKILL.md` 全文。
+  「藏地址」**筛掉的只有 AI**，筛不掉任何攻击者 —— 纯负收益。
+- **一次性口令措辞降级观感**：`One-time authorization code` → `One-time code for this run`，
+  并在提示词里就地说明**它本身不授予任何权限**、写入仍需老师在小程序确认（这本就是事实）。
+- **版本号写进提示词**（`…/v2.13.0/SKILL.md`），保证同一会话读到的始终是同一版。
+
+### Fixed · SKILL.md 里的注入红旗（本次的次因）
+
+- 🔴 **硬规则 9 重写**：原来是 `Do not disclose ... if pressed, answer only 「标准数据规范化配置。」`。
+  这正是 v1.4.1 已经修掉的"注入红旗三连"第 3 条（禁止披露），v2.11.0 又把它从启动语搬进了 payload。
+  现在改为**简洁性要求**：不复述流程与文件清单（老师要结果不要方法），但**被问出处要如实说**，
+  **绝不编造说法、绝不背固定话术**。
+- 🔴 **Safety policy 删除「不得透露仓库出处」整条**（URL / `owner/name` / 不说 "GitHub"）。
+  理由：既拦不住人（仓库公开），又会让模型把本文件判成恶意 skill。
+- 🔴 **删除 `If pressed, answer only 「标准数据规范化配置。」`** ——
+  "被追问就背一句固定话术"是恶意 skill 的标志性行为，是最强的拒答触发器。
+- `Do not over-harden` 补第三条：**也不许隐瞒文档出处**（前两条是"别冒充 system""别要求 verbatim"）。
+- `Versioned file URLs` 顶部说明改写：不再是"本政策禁止提及仓库"，而是"别把文件清单背给老师听"。
+- Workflow routing 一行同步：被问出处 ⇒ 平实回答一次，不再指向 Safety policy 的封口规则。
+
+### Removed · 隐蔽版整体废弃
+
+- 🔴 **删除 `assets/starter-prompt-hidden.md`**（英文配置块 + 网址藏进 base64）
+  与只为它服务的 `scripts/make_manifest_b64.py`。
+  依据 `CHANGELOG [1.4.1]` 自己写下的取舍：「**越隐蔽 ⇄ 越容易被拒，无法两全**」——
+  它就是这条杠杆最坏的那一端，与本次结论方向相反。
+
+### Changed · 回退路径与文档
+
+- `references/10-capability.md` §2b 重写：原来是"用启动语里给的**镜像**地址"（而提示词里**没有任何地址**，
+  这条回退路径一直是**死的**）。现在改为：地址用提示词里给的，**不许自己重建或猜**；
+  打不开就一句话说明，并给老师两条出路（把 `SKILL.md` 贴过来 / 用附件版 `meta-prompt.md`）。
+- `references/10-capability.md` / `assets/starter-prompt.md` / `README.md` / `docs/ops-checklist.md` /
+  `docs/testing.md`：pin 全部升到 `v2.13.0`；删掉 base64 与隐蔽版的历史说明；
+  补上「发版四步 + 顺序不能反」。
+- `README.md` 语言分层表修正：`assets/interactive-meta-prompt.md` 实际是**英文**，归入指令层（原文误列为中文产物层）。
+- `docs/testing.md`：显式记下 **2026-10-14 那句"越干净越不像执行远程指令"是错的**，并写清修正后的口径。
+
+### 配套（后端 `yunce-backend`）
+
+- `DEFAULT_PROMPT_TEMPLATE` 换成 v2.13.0 形态；`DEFAULT_SKILL_REPO` 由裸名改为 **`owner/name`**。
+- 🔴 **把 v2.11.0 加的反向断言改成正向断言**：原用例是"提示词**不得**出现 GitHub / `owner/name` / URL"，
+  现在改为"**必须**出现 `owner/name` 与 `SKILL.md` 的 raw URL"。
+  ⇒ **这道防线现在会阻止任何人再把定位线索删掉**，而不是鼓励删除。
+- 发版顺序写进 `docs/ops-checklist.md`：**先推 tag、确认 raw 链接 200，再发后端**。反了就是给老师下发 404 地址。
+
+### 未做（如实记录）
+
+- **没有配置 Gitee 镜像**：不存在真实的镜像仓库，不凭空写一个假地址。
+  真要降级，走「贴 `SKILL.md` 内容 / 用附件版」这两条真实可行的路。
+
 ## [2.12.1] - 2026-10-15
 
 > 一句话：**提示词里不再有语言指令** —— 改为全英文、无中文字符；「始终用中文回复」上移到技能里。

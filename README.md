@@ -13,8 +13,8 @@
 
 | 层 | 语言 | 文件 | 为什么 |
 |---|---|---|---|
-| **指令层**（AI 读） | **English** | `SKILL.md`、`references/*.md` | 对齐大厂技能惯例；指令用英文，模型命中率与 token 效率更好 |
-| **产物层**（人读） | **中文** | `assets/starter-prompt.md`、`assets/meta-prompt.md`、`assets/interactive-meta-prompt.md`、官方模板 | 老师要看懂、要复制、要上传 |
+| **指令层**（AI 读） | **English** | `SKILL.md`、`references/*.md`、`assets/interactive-meta-prompt.md` | 对齐大厂技能惯例；指令用英文，模型命中率与 token 效率更好 |
+| **产物层**（人读） | **中文** | `assets/starter-prompt.md`、`assets/meta-prompt.md`、官方模板 | 老师要看懂、要复制、要上传 |
 | **维护层** | 中文 | `README.md`、`docs/*.md` | 团队与运营日常使用 |
 
 🔴 **改的时候别串层**：`SKILL.md` 的英文指令**永远不能**让智能体用英文回老师。
@@ -43,9 +43,8 @@
 
 | 情况 | 怎么办 |
 |---|---|
-| AI 说"打不开链接" | 改用模板 2（把 `assets/meta-prompt.md` 当附件上传） |
-| 不想让人看出提示词内容 / 看到网址 | 用 [`assets/starter-prompt-hidden.md`](assets/starter-prompt-hidden.md)（英文配置块 + 网址藏进 base64） |
-| 想少一步上传（AI 直接送进系统） | 用**小程序里生成**的启动语（它带接口地址与凭证）。实测可用：**豆包（开「工作模式」）**、**Kimi** |
+| AI 说"打不开链接" | 改用模板 2（把 `assets/meta-prompt.md` 当附件上传）；或把 `SKILL.md` 内容贴给它 |
+| 想少一步上传（AI 直接送进系统） | 用**小程序里生成**的启动语（它带一次性口令）。实测可用：**豆包（开「工作模式」）**、**Kimi** |
 | AI 说"我没法直接写进系统" | **正常**。换上面那两个，或就用表格路线 —— 多一步自己上传而已 |
 
 ---
@@ -68,9 +67,8 @@ references/                   AI 按需加载（英文）
 
 assets/                       给老师的产物（中文）
   starter-prompt.md           发给 AI 的第一条消息（模板 1 / 2 / 3）
-  starter-prompt-hidden.md    不暴露网址的英文配置块版
   meta-prompt.md              纯文本版提示词（LEVEL=D / 当附件上传）
-  interactive-meta-prompt.md  小程序生成的交互提示词模板（带 {变量}）
+  interactive-meta-prompt.md  小程序生成的交互提示词模板（带 {变量}，英文）
   老生课时导入模板-v1.3.xlsx   官方模板（老师下载，故保留中文文件名）
 
 scripts/                      可选加速器（能跑就跑，跑不了不影响交付）
@@ -83,9 +81,11 @@ docs/                         设计与运维同步清单
 
 - ⚠️ **本仓库是产物与文案的真源，不会自动同步线上**。线上生效的模板与提示词在运营后台
   `运营 / legacy-import-settings` 维护，需**重新上传/编辑**；对照清单见 [`docs/ops-checklist.md`](docs/ops-checklist.md)。
-- ⚠️ **提示词里没有域名、没有 URL** —— 交互元提示词只说**仓库名**（`{repo}`，让 AI 自己去找）+ 一个一次性**授权码**（`{code}`，如 `TESTONLY-0001`）；
+- ⚠️ **启动语必须给可定位的地址** —— 交互元提示词给**仓库 `owner/name` + `SKILL.md` 的固定链接** + 一个一次性**口令**（`{code}`，如 `TESTONLY-0001`）+（仅联调）环境标识。
   接口基址 **`base` 固定在本仓库**（`SKILL.md` 的 Endpoint 节），由 AI 自己拼成 `{base}/assist-import/gate/{code}` 去握手；
-  后续所有接口地址由**握手响应下发**（`apiBase`），AI 永远不自己拼接口路径。**本仓库是公开的。**
-- ⚠️ **发版三步**：改 `VERSION` + 在 `CHANGELOG.md` 记一条 + 把 `SKILL.md` /
-  `assets/starter-prompt.md` / `assets/starter-prompt-hidden.md` 里钉的 tag 一起改掉，然后打 tag 推送。
+  后续所有接口地址由**握手响应下发**（`apiBase`），AI 永远不自己拼接口路径。**本仓库是公开的，地址从来不是秘密。**
+  🔴 **不要再把地址删掉换成裸仓库名** —— v2.11.0~v2.12.1 试过，AI 定位不到文件，全线卡死（见 `assets/interactive-meta-prompt.md` §3）。
+- ⚠️ **发版四步**：改 `VERSION` + 在 `CHANGELOG.md` 记一条 + 把 `SKILL.md` / `assets/starter-prompt.md` /
+  `assets/interactive-meta-prompt.md`（§1 的 URL）**与后端 `DEFAULT_PROMPT_TEMPLATE` 常量**里钉的 tag 一起改掉，
+  然后打 tag 推送。🔴 **顺序不能反**：先推 tag，确认 raw 链接 200，再发后端 —— 否则线上会下发一个 404 地址。
 - ℹ️ 文件名已全部英文化（除老师会下载的 xlsx）：避免中文路径在 raw 链接里需要 URL 编码。
