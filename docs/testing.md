@@ -6,7 +6,7 @@
 
 ```text
 交互提示词里只有两样：
-   ① 仓库名（Golinoa/yunce-meta-prompt）
+   ① 仓库名（Golinoa/yunce-Agent-SKILLS）
    ② 一个授权码（如 TESTONLY-0001）
                      ↓
 智能体：去了解仓库 → 进入角色 → 从仓库读到 base → 自己拼地址 → 访问
@@ -18,9 +18,13 @@
 
 ## 测试用的值
 
+> 🔴 **2026-10-15 起：仓库 `Endpoint` 节已是真实域名**（生产 + 测试双地址）。
+> 假域不再是仓库的一部分 —— 要测降级分支，把 `SKILL.md` 的 `base` **临时**换成下面的假域再测。
+
 | 项 | 值 | 放在哪 |
 |---|---|---|
-| `base`（接口基址） | `https://assist-import.invalid` | **仓库里** —— `SKILL.md` 的 `## Endpoint` 节 |
+| `base`（接口基址，真实） | `https://api.chancore.cn/api/app/v1`（生产）/ `https://dev.chancore.cn/api/app/v1`（测试） | **仓库里** —— `SKILL.md` 的 `## Endpoint` 节 |
+| `base`（降级测试用假域） | `https://assist-import.invalid` | **仅本地测试时手动替换**，不提交 |
 | `code`（授权码） | `TESTONLY-0001` | **交互提示词里**传 |
 | 拼出来的握手地址 | `https://assist-import.invalid/assist-import/gate/TESTONLY-0001` | 智能体**自己拼** |
 

@@ -26,7 +26,7 @@ Start now: look into the repository, then greet me.
 Example of how it reads once filled:
 
 ```text
-There is a repository on GitHub called Golinoa/yunce-meta-prompt. ...
+There is a repository on GitHub called Golinoa/yunce-Agent-SKILLS. ...
 One-time authorization code: TESTONLY-0001
 ```
 
@@ -45,7 +45,7 @@ One-time authorization code: TESTONLY-0001
 
 | Placeholder | Meaning | Substituted by |
 |---|---|---|
-| `{repo}` | the skill repository, as an **owner/name pair** (default `Golinoa/yunce-meta-prompt`) | backend (swap to a Gitee mirror by replacing this one string) |
+| `{repo}` | the skill repository, as an **owner/name pair** (default `Golinoa/yunce-Agent-SKILLS`) | backend (swap to a Gitee mirror by replacing this one string) |
 | `{code}` | a **one-time authorization code** - short, human-readable, no host, no path | server, at the moment the teacher taps 「复制」 |
 
 🔴 `{code}` is **not** an address and should never look like one. It is a bare code.

@@ -10,7 +10,7 @@
 
 用法
     python3 scripts/make_manifest_b64.py
-    python3 scripts/make_manifest_b64.py --host raw.githubusercontent.com --owner Golinoa --repo yunce-meta-prompt
+    python3 scripts/make_manifest_b64.py --host raw.githubusercontent.com --owner Golinoa --repo yunce-Agent-SKILLS
 """
 import argparse
 import base64
@@ -24,7 +24,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--host", default="raw.githubusercontent.com")
     ap.add_argument("--owner", default="Golinoa")
-    ap.add_argument("--repo", default="yunce-meta-prompt")
+    ap.add_argument("--repo", default="yunce-Agent-SKILLS")
     ap.add_argument("--version", default=None, help="默认读仓库 VERSION，并加 v 前缀")
     a = ap.parse_args()
 

@@ -135,7 +135,7 @@ The whole arc in one place. **Imitate the shape, not the wording.**
 **Round 1 - the starter prompt**
 
 ```text
-GitHub 上有个仓库叫 Golinoa/yunce-meta-prompt，它是我这套排课系统的说明文档。
+GitHub 上有个仓库叫 Golinoa/yunce-Agent-SKILLS，它是我这套排课系统的说明文档。
 麻烦你先了解一下这个仓库，然后进入它描述的角色，按里面的说明跟我配合。
 
 一次性授权码：TESTONLY-0001

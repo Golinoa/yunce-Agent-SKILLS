@@ -23,11 +23,20 @@ otherwise the data will not import.
 
 ## Endpoint
 
-Every request this skill makes goes to **one base URL, fixed in this repo**:
+Every request this skill makes goes to **one base URL, fixed in this repo**. There are two
+environments - pick **one** per conversation and stay with it:
 
 ```text
-base = https://assist-import.invalid
+base = https://api.chancore.cn/api/app/v1   (production - the default)
+base = https://dev.chancore.cn/api/app/v1   (testing)
 ```
+
+**How to choose:**
+
+- **Default: production.** If the teacher said nothing about environments, use production.
+- Use the **testing** base only when the teacher **explicitly mentions 测试环境 / test environment**
+  in this conversation (e.g. "备注：这是测试环境").
+- Never mix the two bases in one conversation. If unsure which one applies, ask once.
 
 The **only** path this skill uses is `{base}/assist-import/gate/{code}` - the opening handshake,
 where `{code}` is the one-time authorization code from your starter prompt. Every later endpoint
@@ -275,9 +284,9 @@ Replace `vX.Y.Z` below with the target tag; use `main` when none is specified.
 Convention: **on release, update the pinned tag in this file, `assets/starter-prompt.md`
 and `assets/starter-prompt-hidden.md` together.**
 
-- This file: `https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/vX.Y.Z/SKILL.md`
-- Data spec: `https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/vX.Y.Z/references/20-data-spec.md`
-- Official template: `https://raw.githubusercontent.com/Golinoa/yunce-meta-prompt/vX.Y.Z/assets/老生课时导入模板-v1.3.xlsx`
+- This file: `https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/vX.Y.Z/SKILL.md`
+- Data spec: `https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/vX.Y.Z/references/20-data-spec.md`
+- Official template: `https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/vX.Y.Z/assets/老生课时导入模板-v1.3.xlsx`
 
 > ⚠️ If this domain is unreachable, see the mirror addresses in `references/10-capability.md`.
 

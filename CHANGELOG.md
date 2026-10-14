@@ -1,3 +1,25 @@
+## [2.10.0] - 2026-10-15
+
+> 两件事：**仓库更名** `yunce-meta-prompt` → **`yunce-Agent-SKILLS`**（GitHub 已改，旧名自动重定向）；
+> **Endpoint 从假域换真实域名**（此前 `assist-import.invalid` 是降级测试用假域，真上线前必须换）。
+
+### Changed
+
+- 🔴 **仓库更名**：所有引用（README / SKILL / assets / docs / 启动语 pin / 隐蔽版 DOC_TOKEN）同步为新名。
+- **`SKILL.md` → `## Endpoint`**：改为**双环境** ——
+  - 生产（默认）：`https://api.chancore.cn/api/app/v1`
+  - 测试（仅当老师明确说「测试环境」时）：`https://dev.chancore.cn/api/app/v1`
+  - 选择规则：默认生产；只有老师**明确备注测试环境**才切测试；同一对话不混用；拿不准问一句。
+- `scripts/make_manifest_b64.py` 的 `--repo` 默认值同步改名。
+- `assets/starter-prompt.md` pin 从 `v2.9.1` → `v2.10.0`；隐蔽版 `DOC_TOKEN` 重新生成（`r=yunce-Agent-SKILLS`, `v=v2.10.0`）。
+- `docs/testing.md`：假域 `assist-import.invalid` 不再是仓库的一部分 ——
+  降级测试时**手动临时替换** `base`，不提交。
+
+### 安全评估
+
+- 域名写进公开仓库 = API 基址公开可见。**不构成权限漏洞**（与 v2.6.0 同一结论）：
+  光有 base + code 最多建一个**待授权**会话，真正的权限点是老师在小程序点授权 + 服务端发短码。
+
 ## [2.9.1] - 2026-10-14
 
 > 配合后端 `DATA_NOT_READY` + 写入改增量（yunce-backend `727eab4`）。

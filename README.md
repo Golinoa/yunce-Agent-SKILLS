@@ -5,7 +5,7 @@
 
 > 当前版本：以 [`VERSION`](VERSION) 为准 ｜ 变更见 [`CHANGELOG.md`](CHANGELOG.md)
 > 支持的导入格式：**`.xlsx` / `.csv` / `.txt`**（教务系统三种都认）
-> 远端仓库：https://github.com/Golinoa/yunce-meta-prompt
+> 远端仓库：https://github.com/Golinoa/yunce-Agent-SKILLS
 
 ---
 
