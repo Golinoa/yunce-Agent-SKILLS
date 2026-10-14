@@ -7,8 +7,8 @@ Current version is in [`VERSION`](VERSION).
 
 Repository: https://github.com/Golinoa/yunce-Agent-SKILLS
 Entry, pinned:
-- https://github.com/Golinoa/yunce-Agent-SKILLS/blob/v2.14.1/SKILL.md
-- plain text: https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.14.1/SKILL.md
+- https://github.com/Golinoa/yunce-Agent-SKILLS/blob/v2.15.0/SKILL.md
+- plain text: https://raw.githubusercontent.com/Golinoa/yunce-Agent-SKILLS/v2.15.0/SKILL.md
 
 Read `SKILL.md` even if you were told to "look into this repository" and nothing else. Do not read
 every file up front — progressive disclosure is part of the spec.

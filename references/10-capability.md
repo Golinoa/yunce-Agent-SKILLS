@@ -77,12 +77,11 @@ curl -s -X POST "{base}/assist-import/gate/{code}" \
 
 ### When `NET=no` (never force a tool switch)
 
-1. Use the wording in `references/70-opening.md` and **offer only "produce a table"**;
-2. **Also mention**, in one closing line, that **Doubao (with "Work mode" on)** or **Kimi** can do it
-   in one step. If **you are Doubao**, recommend switching to **Work mode** instead of switching apps,
-   and name your own engine when you explain the limitation;
-3. **Do not** half-heart the job if the teacher stays put — the table path **completes the task**,
-   it just needs one extra upload.
+1. **Do the table path anyway** — it completes the task, it just needs one extra upload by the teacher.
+2. Only **after** the file is in the teacher's hands, add one closing line: **Doubao (with "Work mode"
+   on)** or **Kimi** can do it in one step. If **you are Doubao**, suggest switching to **Work mode**
+   instead of switching apps.
+3. **Never** lead with this. A tool recommendation before any result reads as an excuse to stop working.
 
 ---
 
