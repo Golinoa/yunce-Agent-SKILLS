@@ -123,8 +123,8 @@ Markdown is the last resort, because the user must paste manually and it is very
 
 ## 5. Wording to the user at LEVEL=D
 
-> 我这边不能生成文件。请把下面这张表**整段复制**到 Excel 里（从第一行"学员姓名"开始），
-> 另存为 `.xlsx` 或 `.csv`，再到「老生录入」里导入。
-> ⚠️ 下面表格之后的内容（包括我写的说明）**不要一起复制进去**。
+> 我这边不能生成文件。请把下面这张表整段复制到 Excel 里（从第一行「学员姓名」开始），
+> 另存为 .xlsx 或 .csv，再到「老生录入」里导入。
+> 注意：下面表格之后的内容（包括我写的说明）不要一起复制进去。
 
 That last line matters — see the "fake student" rule in `references/20-data-spec.md`.

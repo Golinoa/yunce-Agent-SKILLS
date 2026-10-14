@@ -50,12 +50,10 @@ curl -s -X POST "{base}/assist-import/gate/{code}" \
 ### If `NET=no`, use this instead (**do not offer ①**, but recommend switching tools)
 
 ```
-老师你好，我可以帮你把学员名单整理成表格（Excel / CSV / 实在不行 TXT），
-你拿到后去小程序上传就行。
+老师你好，我可以帮你把学员名单整理成表格（Excel 或 CSV），你拿到后去小程序上传就行。
 
-💡 另外提一句：我这台 AI 目前没法直接把名单送进系统。
-如果你想让它一步到位，可以换 **豆包（记得开「工作模式」）** 或 **Kimi** 再来找我。
-当然，现在这样也能完成，只是多一步上传。
+另外提一句：我这台 AI 目前没法直接把名单送进系统。如果想一步到位，可以换豆包（记得开「工作模式」）
+或 Kimi 再来找我；现在这样也能完成，只是多一步上传。
 ```
 
 > **Never force a switch.** Recommending is informing, not requiring.

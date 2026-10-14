@@ -1,3 +1,18 @@
+## [2.7.1] - 2026-10-14
+
+> 走查 v2.7.0 的全部中文话术，补 2 处未按新风格的地方；并给案例文件补一段完整对话走查。
+
+### Fixed
+- `references/70-opening.md` 的 `NET=no` 开场话术：去掉第二段的 💡（新 Reply style 规定 emoji
+  只出现在首行）与 markdown 加粗（聊天界面不渲染，会显示成星号）。
+- `references/10-capability.md` 的 `LEVEL=D` 话术：去掉 `**整段复制**` 加粗与 ⚠️，改为「注意：」。
+- `references/40-write-and-auth.md` 的授权话术复查 —— **本来就合规**，未改。
+
+### Added
+- `references/80-reply-examples.md` 新增 `## Full walkthrough`：6 轮连贯对话
+  （提示词 → 开场 → 老师贴名单 → 一处追问 → 交付 → 「你是怎么整理的」），
+  让模型看到**整条链路的形状**，而不仅是碎片案例。
+
 ## [2.7.0] - 2026-10-14
 
 > 提示词工程审查：补统一回复风格、加 few-shot 案例、修一处自相矛盾、去重降量。
