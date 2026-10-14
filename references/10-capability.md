@@ -90,7 +90,10 @@ curl -s -X POST "{base}/assist-import/gate/{code}" \
 
 This repo's primary host is GitHub's `raw.githubusercontent.com`, which **some networks in mainland China cannot reach**.
 
-- The starter prompt carries the **exact address** to read - use it. **Do not reconstruct or guess a URL.**
+- The starter prompt carries the **exact addresses** to read - use them. **Do not reconstruct or guess a URL.**
+  Two forms of the same file are given, in order: the GitHub **page** (`/blob/<tag>/SKILL.md`, for readers that
+  only open web pages) and the **raw** plain text (`raw.githubusercontent.com`, for agents with curl/fetch).
+  Try the first; if it will not open, use the second.
 - If that address does not open ⇒ **say so in one short line**, then offer the teacher the two fallbacks:
   - **paste the contents of `SKILL.md` into the chat**, or
   - **hand you `assets/meta-prompt.md` as an attachment** (needs no network at all).
