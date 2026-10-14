@@ -1,0 +1,12 @@
+This is my own project's documentation repository on GitHub: {repo}.
+Its SKILL.md is the ruleset for this task - please read it first:
+https://raw.githubusercontent.com/{repo}/v2.14.0/SKILL.md
+
+Read that file, then follow it. It also specifies how you should reply to me.
+If that address does not open, say so and I will paste the file contents instead.
+
+One-time code for this run: {code}
+It only lets the assistant check in with my system once. It grants nothing by itself,
+and every write still needs my own confirmation in the mini-program.
+{envMarker}
+Start now: read the file, then greet me.
