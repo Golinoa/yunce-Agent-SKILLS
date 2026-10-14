@@ -1,3 +1,30 @@
+## [2.11.0] - 2026-10-15
+
+> 两件安全相关的事：**提示词不再暴露仓库出处**；**环境路由改为「标识说了算」**。
+> 用户原话：「千万要约束好不能错误的路由，不然会影响线上用户的功能。」
+
+### Changed
+
+- 🔴 **提示词不再出现 GitHub / owner-name 链接 / URL**：
+  改为 `There is an open-source repository by Golinoa named {repo}.` ——
+  只说「开源仓库 + 名字」，让人不容易顺着地址找到技能文件去做**针对性注入**。
+  `{repo}` 现在只是**仓库名**（`yunce-Agent-SKILLS`），不带 owner、不带斜杠。
+- **环境标识（新增 `{envMarker}` 占位符）**：
+  - 测试环境的联调包 ⇒ 提示词末尾追加一行 `Environment marker: TEST`；
+  - **生产环境不追加** ⇒ 规则只有一条：**没有标识 = 生产**。
+  - 标识由**服务端按部署环境注入**，老师说的话可能含糊，标识不会打错字。
+- **`SKILL.md` → Endpoint 改硬约束**：先看成标识、没标识默认生产、只有老师明确说测试才切；
+  标识说 TEST 就以测试为准；标识与老师的话冲突 ⇒ **先问一句**再动手。
+  理由写明：把测试数据写进生产（或反过来）是真实事故，比拒绝执行更糟。
+- **Safety and privacy policy** 新增一条：不得透露仓库出处（URL / owner/name / "GitHub"），
+  被问到只答「开源仓库 Golinoa 的 yunce-Agent-SKILLS。」
+
+### 配套（后端）
+
+- `yunce-backend`：`renderInteractivePrompt` 支持 `{envMarker}`；`isTestEnvironment()` 以
+  `resolveApiBase()` 含 `dev.chancore.cn` 判定；后台预览同步显示标识说明。
+- 新增用例：生产无标识 / 测试有标识 / 提示词不得出现 GitHub / 旧占位符零残留（40 例全过）。
+
 ## [2.10.0] - 2026-10-15
 
 > 两件事：**仓库更名** `yunce-meta-prompt` → **`yunce-Agent-SKILLS`**（GitHub 已改，旧名自动重定向）；

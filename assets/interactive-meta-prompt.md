@@ -11,24 +11,57 @@ It carries only two things:
 
 ---
 
-## 1. The template (substitute the two placeholders, then hand it to the teacher)
+## 1. The template (substitute the placeholders, then hand it to the teacher)
 
 ```text
-There is a repository on GitHub called {repo}. It documents the scheduling system I use.
+There is an open-source repository by Golinoa named {repo}.
+It documents the scheduling system I use.
 Please look into it, then take on the role it describes and work with me the way it says.
 
 One-time authorization code: {code}
-
+{envMarker}
 Please always reply to me in Chinese (简体中文).
 Start now: look into the repository, then greet me.
 ```
 
-Example of how it reads once filled:
+Example of how it reads once filled (production - **no env marker**):
 
 ```text
-There is a repository on GitHub called Golinoa/yunce-Agent-SKILLS. ...
+There is an open-source repository by Golinoa named yunce-Agent-SKILLS. ...
 One-time authorization code: TESTONLY-0001
 ```
+
+> 🔴 **Never say "GitHub", and never write the repository as `owner/name` or as a link.**
+> Say "open source repository" + "Golinoa's `yunce-Agent-SKILLS`".
+> Reason: a plain, copy-pasteable repository address makes it trivial to find and tamper with the
+> skill files. The agent is told **what** to read, not **where it lives**.
+
+---
+
+## 1b. The environment marker (last line - decides which base URL to use)
+
+The server appends **one** line only when the copy came from a **test** (联调) build:
+
+```text
+Environment marker: TEST
+```
+
+**No marker = production.** This is the whole rule.
+
+| What the prompt ends with | Base URL to use |
+|---|---|
+| (nothing) | **production** - `https://api.chancore.cn/api/app/v1` |
+| `Environment marker: TEST` | **testing** - `https://dev.chancore.cn/api/app/v1` |
+
+🔴 **The marker is authoritative.** It is injected by the server, not typed by a person:
+
+- marker says TEST ⇒ use testing, **even if the teacher says "生产"**;
+- no marker ⇒ production, unless the teacher **explicitly says 测试环境 / test environment**;
+- if the marker and the teacher's words genuinely conflict, **ask once** before writing anything.
+  Never guess: writing to production from a test batch (or vice versa) is a routing error.
+
+> `{envMarker}` is a placeholder for the whole line - empty in production,
+> `Environment marker: TEST` in test builds. It is **never** a URL or a host.
 
 **How the handshake address is formed** - by the agent, after it has entered the role:
 
@@ -45,8 +78,9 @@ One-time authorization code: TESTONLY-0001
 
 | Placeholder | Meaning | Substituted by |
 |---|---|---|
-| `{repo}` | the skill repository, as an **owner/name pair** (default `Golinoa/yunce-Agent-SKILLS`) | backend (swap to a Gitee mirror by replacing this one string) |
+| `{repo}` | the **repository name only** - no owner, no slash, no URL (default `yunce-Agent-SKILLS`) | backend (swap to a mirror by replacing this one string) |
 | `{code}` | a **one-time authorization code** - short, human-readable, no host, no path | server, at the moment the teacher taps 「复制」 |
+| `{envMarker}` | empty in production; `Environment marker: TEST` in test builds | server, from the deployment environment |
 
 🔴 `{code}` is **not** an address and should never look like one. It is a bare code.
 
