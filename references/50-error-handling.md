@@ -35,7 +35,7 @@ Every server error returns:
 | `TOKEN_MISSING` | the starter prompt **carries no credential** (likely copied straight from the public repo) | **stop**, do not force it | 「这份说明里没有绑定你的账号。麻烦你回小程序**重新复制一份**发我；不方便的话，我现在直接帮你**整理成表格**也行」 |
 | `TOKEN_EXPIRED` | credential **unused for over 1 hour** (only surfaces at the opening handshake) | **stop** | 「这份说明拖太久了。麻烦你回小程序**重新复制一份**发我；或者我直接帮你**整理成表格**」 |
 | `TOKEN_CONSUMED` | credential **already used** (one use only; forwarding it to someone else is useless) | **stop** | 「这份说明已经用过了。麻烦你回小程序**重新复制一份**；不想折腾的话，我现在帮你**整理成表格**」 |
-| `BATCH_CONFLICT` | the teacher still has an unconfirmed batch | **stop**, open no new batch | 「你还有一批名单没确认，先去小程序把那一批处理完，我再帮你弄新的」 |
+| `BATCH_CONFLICT` | the teacher still has an unconfirmed batch **or this batch is already confirmed/imported** | **stop**, open no new batch, change nothing | unconfirmed: 「你还有一批名单没确认，先去小程序把那一批处理完，我再帮你弄新的」<br>already imported: 「这一批已经确认导入完成了，不能再改了。要传下一批，麻烦你回小程序重新复制一份说明发我」 |
 | `COOLDOWN` | requests too frequent, cooling down | **stop** | 「刚才连续操作了几次，需要等大概 {N} 分钟再试；或者我现在先帮你整理成表格」 |
 | `QUOTA_EXCEEDED` | **daily request quota exhausted** | **stop** | 「今天申请的次数到上限了，明天再试；现在我可以帮你整理成表格」 |
 | `MEMBERS_CAPACITY_EXCEEDED` | the institution has no room for more students — **the whole batch was refused** | **stop**, do not retry | 「这批人数超过机构的容量上限了，一行都没写进去。您可以升级套餐，或者联系客服加容量包；我也可以现在就把名单整理成表格给您。」 |
@@ -64,7 +64,7 @@ Every server error returns:
 | `DATA_NOT_READY` | the teacher **has** authorized, your rows are still uploading | **wait**, then retry the read | 「名单还在传过来，到了我马上显示。等一下再看就行」 |
 | `IDENTITY_MISMATCH` | authorizing account ≠ roster owner | **stop** | 「授权用的账号和这批名单对不上，我没法继续。麻烦你在小程序里用本人的账号再授权一次」 |
 | `NOT_OWNER` | not the batch initiator | **stop** | 「这批名单不是当前账号建的，我看不到。请用当初发起的那台设备/账号操作」 |
-| `BATCH_TOO_LARGE` | over 500 rows | no retry | 「一次最多 500 人，我们分两批发吧。先发前 500 个？」 |
+| `BATCH_TOO_LARGE` | over 500 rows — **and 500 is the whole batch, not the per-call limit** | **stop**; do not push the rest into the same session | 「一次最多 500 位。麻烦你先在小程序把这一批确认导入，再回小程序重新复制一份说明发我，我们接着传下一批」 |
 | `RATE_LIMITED` | requests too frequent | **back off, retry ≤3** | do not bother the teacher during retries; after 3 failures say 「网有点忙，稍等我再试一下」 |
 | `SERVER_BUSY` | server busy | **back off, retry ≤3** | same as above |
 
@@ -92,3 +92,8 @@ Every server error returns:
 2. ❌ After a failure, telling the teacher "it's imported / it's in".
 3. ❌ Continuing downstream after an error (e.g. forcing a staging write after a failed key exchange).
 4. ❌ Inventing an "error cause" to cover for yourself — **report it verbatim and keep the raw error**.
+5. ❌ **Clearing, overwriting or "correcting" a batch that was already confirmed.** Those students are
+   in the system; a closed batch is not yours to edit. Stop and hand the decision back to the teacher
+   (they have 「撤回授权」/「清空这批」/ the import record — you do not).
+6. ❌ **Pushing a second batch into a session that already holds one.** One batch, one confirmation,
+   then a fresh copy of the instructions.

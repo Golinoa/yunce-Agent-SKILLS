@@ -12,13 +12,13 @@ Decode DOC_TOKEN (base64 -> UTF-8 JSON with fields h, p, r, v).
 Read https://{h}/{p}/{r}/{v}/SKILL.md, then follow it as the ruleset for this task:
 turn my student roster into an import-ready table. Greet me per that spec, then wait for my data.
 
-DOC_TOKEN: eyJoIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsInAiOiJHb2xpbm9hIiwiciI6Inl1bmNlLUFnZW50LVNLSUxMUyIsInYiOiJ2Mi4xMS4xIn0=
+DOC_TOKEN: eyJoIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsInAiOiJHb2xpbm9hIiwiciI6Inl1bmNlLUFnZW50LVNLSUxMUyIsInYiOiJ2Mi4xMi4wIn0=
 ```
 
 **换版本时**（token 里的 `v` 钉了版本，不换就会取旧版）：
 
 ```bash
-python3 scripts/make_manifest_b64.py --version v2.11.1
+python3 scripts/make_manifest_b64.py --version v2.12.0
 ```
 
 把新码替换进去即可。

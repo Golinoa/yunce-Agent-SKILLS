@@ -86,6 +86,24 @@ curl -s -X POST "{base}/assist-import/gate/{code}" \
 
 > **Never force a switch.** Recommending is informing, not requiring.
 
+### The teacher hands the decision back (「你看着办」/「都行」/「你决定」)
+
+The teacher does not want to choose, and asking again would be nagging. **You still must not decide
+for them on the write path** — but the table path is always safe: it produces a file the teacher can
+use at any time, and it never touches the system.
+
+So take the path that needs no decision:
+
+```
+那我先帮您整理成表格，您在小程序「老生课时导入」里上传就行，最省事。
+要是您想让我直接送进系统，随时跟我说一声，我把「授权」那一步再跟您走一遍。
+```
+
+Then start cleaning the roster (do not ask a second question).
+
+> 🔴 Never treat 「你看着办」 as permission to authorize, confirm, or write on the teacher's behalf —
+> those stay theirs. Defaulting to the table path is the only "deciding" you are allowed to do.
+
 ### The teacher wants path 1 but your starter prompt has no `{code}`
 
 That means your starter prompt carries no authorization code (likely copied straight from the public repo) ⇒

@@ -118,17 +118,34 @@ curl -s -X POST "{apiBase}/assist-import/batches/{batchKey}/rows" \
 | `subject` / `remainHours` / `validUntil` | optional; subject and remaining lessons are **a pair** |
 | `payAmount` / `remark` | optional |
 
-- **Max 500 rows per call**; exceeding returns `400 BATCH_TOO_LARGE` ⇒ send the rest in another call.
+- **One batch = one session = at most 500 rows** (per call and in total). The batch boundary is the
+  point; see the rule below.
 - Returns `{"accepted":n,"inserted":n,"replaced":n,"rejected":[{"rowNo":..,"reason":".."}]}`.
-- 🔴 **Incremental by `rowNo`** — this is what makes retries *and* batching both safe:
+- 🔴 **Incremental by `rowNo`** — this is what makes retries safe:
   - re-sending a `rowNo` you already sent **replaces** that row (fix a mistake in place);
-  - a `rowNo` you did **not** send this time is **left alone** (so a second call does not wipe the first).
+  - a `rowNo` you did **not** send this time is **left alone** (a retry never wipes earlier rows).
 
-  Keep `rowNo` **stable and unique** across all your calls for one batch — it is the identity the
-  server merges on. Never renumber between calls, or you will duplicate students.
-- 🔴 **Whole-batch ceiling is 2000 rows per batch.** Exceeding returns `BATCH_TOO_LARGE`; do not loop.
-- Rate limit: at most **12 submissions per batch within 15 minutes** — enough for 4 slices plus one
-  retry each. Getting `RATE_LIMITED` means you were too fast; **wait and retry, never re-slice**.
+  Keep `rowNo` **stable and unique** within the batch — it is the identity the server merges on.
+  Never renumber between calls, or you will duplicate students.
+- 🔴 **500 is the ceiling of the whole batch — and the batch must be confirmed before the next one.**
+
+  ```
+  over 500 rows?
+    -> STOP. Do not split and push the rest into the same session.
+    -> Tell the teacher: one batch takes 500; confirm this batch in the mini-program first,
+       then come back and copy a fresh set of instructions — we continue with the next batch.
+  ```
+
+  The server answers `BATCH_TOO_LARGE` (`retryable=false`) if you push past it. **Stopping there is the
+  correct behaviour, not a failure** — two batches inside one session would merge two groups of students
+  the teacher may want to confirm separately.
+- 🔴 **A confirmed batch is closed.** Once the teacher confirms, that session is finished
+  (writing again returns `BATCH_CONFLICT`). **Stop and tell the teacher** to copy a fresh set of
+  instructions for the next batch. **Never** clear, overwrite or "tidy up" rows of a batch that was
+  already imported — those students are already in the system, and nothing done in this chat can
+  change them.
+- Rate limit: at most **12 submissions per batch within 15 minutes** — room for retries and small
+  fixes, far below anything that could load the server. `RATE_LIMITED` means wait, then retry.
 
 ### Step 6 · Ask the teacher to confirm
 
@@ -150,7 +167,10 @@ curl -s -X POST "{apiBase}/assist-import/batches/{batchKey}/rows" \
 4. 🔴 **Never mix two teachers' rosters into one batch** (the key is bound to a single batch).
 5. 🔴 **Retry only Step 5** (writing to the staging area is idempotent);
    **a failed key exchange must not be retried** — ask the teacher to authorize again.
-6. **Never retry an error with `retryable=false`** — see `references/50-error-handling.md`.
+6. 🔴 **One batch at a time.** A batch closes when the teacher confirms it. Never start the next batch
+   in the same session, never write after a confirmation, and **never remove or overwrite rows of a
+   batch that was already imported** — stop and hand the decision back to the teacher.
+7. **Never retry an error with `retryable=false`** — see `references/50-error-handling.md`.
 
 ---
 
