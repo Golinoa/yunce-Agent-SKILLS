@@ -22,11 +22,11 @@
 
 Join the parts as `https://<host>/<path>`. The credential lives inside the path.
 
-Your starter prompt carries the **two parts of a one-time authorization link** (`authLink.host` + `authLink.path`) — together they prove
+Your starter prompt carries `{authLinkB64}` — a base64 string that decodes to a full one-time authorization URL. It proves
 "this instruction was copied by that teacher from the mini-program".
 
 ```bash
-curl -s -X POST "https://{authHost}/{authPath}" \
+curl -s -X POST "<URL decoded from {authLinkB64}>" \
   -H "Content-Type: application/json" \
   -d '{}'
 ```

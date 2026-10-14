@@ -45,7 +45,7 @@ Only the **`retryable` flag and error codes returned by the server** can.
 
 - If it cannot run, it cannot run. **Claiming "I can send requests" while nothing goes out is the worst case** —
   the teacher will believe the data landed when nothing did.
-- If the opening handshake (`POST https://{authHost}/{authPath}`) fails or cannot run ⇒
+- If the opening handshake (`POST <URL decoded from {authLinkB64}>`) fails or cannot run ⇒
   **admit `NET=no` immediately**, take the table path and suggest switching AI.
 - **Do not fake success just to be helpful.**
 
@@ -85,7 +85,7 @@ Only the **`retryable` flag and error codes returned by the server** can.
 Report only what the teacher needs to do next, and the outcome.
 
 ### What counts as a credential
-the one-time authorization link (both `authLink` parts), `apiBase`, `sessionId`, `batchKey`,
+the one-time authorization link (decoded from `{authLinkB64}`), `apiBase`, `sessionId`, `batchKey`,
 and the 8-character short code.
 All of them are **only between you and the server**: never echo them back, never paste them,
 never store them, never write them into a table cell or a remark.
@@ -96,18 +96,21 @@ never store them, never write them into a table cell or a remark.
 - Never put a phone number into a problem list — identify rows by `第 X 行`, not by `138xxxx`.
 - If the teacher pastes ID numbers, bank cards or medical records, **stop and decline to process them**.
 
-### Why addresses are split, not base64-encoded
+### Why the address is base64-encoded (and the lines you must not cross)
 
-A previous version of this project hid a URL inside an opaque base64 blob and asked the AI to
-decode and execute it. Content filters flagged that as **prompt injection** and some AIs refused
-to help at all. Three things trigger that verdict:
+The starter prompt encodes **addresses only, never instructions**. The AI is told in plain words:
+"this is a web address of a skill document - decode it, then read it". The verb stays visible; only
+the address *shape* is hidden. That is deliberate, and was explicitly requested on 2026-10-14.
+
+It does sit next to a pattern content filters punish. An earlier version of this project (1.4.1, the
+「隐蔽版」) hid a URL in an opaque blob and asked the AI to **execute** it - filters read that as prompt
+injection and some AIs refused outright. Three things trigger that verdict. **Never do any of them:**
 
 1. impersonating a system message;
 2. demanding **verbatim** execution of a remote file;
-3. hiding the target behind an opaque encoding.
+3. wrapping the *instruction* (not merely the address) in an opaque encoding.
 
-So the current design uses **mild obfuscation only**: an address is split into a few
-**clearly labelled parts**, and the AI is asked to join them. Everything stays plainly readable,
-the AI knows it is being asked to read a document, and no filter trips.
+> Rule of thumb: **hide the shape, never the intent.**
 
-> Rule of thumb: **obfuscate the shape, never the intent.**
+**Fallback:** if an AI refuses on injection grounds, send it the **plain-text** full address instead.
+The skill behaves identically; only the obfuscation is lost. See `docs/ops-checklist.md`.

@@ -7,12 +7,12 @@
 
 ## 1. Shake hands first (**one call**; it decides whether you can write directly)
 
-Your starter prompt carries two labelled parts: `authLink.host` and `authLink.path`.
-Join them as `https://<host>/<path>` — that is a one-time authorization link, the credential lives inside the path.
-**The first thing you do** is shake hands with them:
+Your starter prompt carries `{authLinkB64}` — base64-decode it and you get a full one-time authorization URL.
+The credential lives inside that URL.
+**The first thing you do** is shake hands with it:
 
 ```bash
-curl -s -X POST "https://{authHost}/{authPath}" \
+curl -s -X POST "<URL decoded from {authLinkB64}>" \
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -28,7 +28,7 @@ curl -s -X POST "https://{authHost}/{authPath}" \
    outcome (the teacher will believe the data landed).
 2. **Handshake exactly once.** The credential **is burned the moment it validates**; a second call returns
    `TOKEN_CONSUMED`.
-3. **No `authLink` parts in your starter prompt** ⇒ you have **no** direct-write capability;
+3. **No `{authLinkB64}` in your starter prompt** ⇒ you have **no** direct-write capability;
    take the table path.
 
 > Prompts copied straight from the public repo usually lack both ⇒ **take the table path**.
@@ -61,9 +61,9 @@ curl -s -X POST "https://{authHost}/{authPath}" \
 
 > **Never force a switch.** Recommending is informing, not requiring.
 
-### The teacher picked ① but your starter prompt has no `authLink` parts
+### The teacher picked ① but your starter prompt has no `{authLinkB64}`
 
-That means your starter prompt carries no API address (likely copied straight from the public repo) ⇒
+That means your starter prompt carries no authorization address (likely copied straight from the public repo) ⇒
 **you have no direct-write capability**:
 
 ```

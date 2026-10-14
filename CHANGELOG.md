@@ -1,4 +1,22 @@
-# 变更记录
+## [2.4.0] - 2026-10-14
+
+> 交互元提示词的地址改用 **base64 编码的完整 URL**（用户明确要求），占位符 **4 → 2**。
+
+### Changed
+- **交互元提示词重做**：不再拆 `host` + `path` 分片让 AI 自己拼，改为
+  **直接给完整地址的 base64** —— AI 解码一次即得普通 URL，不需要任何拼接。
+  - 占位符：`{docHost}` `{docPath}` `{authHost}` `{authPath}` → **`{skillDocB64}` `{authLinkB64}`**。
+  - 模板正文改为「解码这两段 base64 → 读取技能文档」，动词（decode / read / follow）**明文不编码**。
+- **安全说明改写**（`SKILL.md` 的 *Do not over-harden*、`references/60-guardrails.md` §7）：
+  v2.3.0 写的是「别用 base64，分片就够」，与本次方案冲突，改为**base64 的三条红线**：
+  ① 意图必须透明（明说"这是文档网址"）；② 绝不伪装系统消息；③ 绝不要求 verbatim 执行。
+  **只编码地址，不编码指令。**
+- 同步：`README.md` 维护须知、`assets/starter-prompt.md` 模板 3 说明、
+  后端契约 `Docs/松小果智能体-接口契约-2026-10-14.md` 附录（占位符 4 → 2 + 新旧字段对照）。
+
+### Known risk (carried forward)
+- 本项目 1.4.1 的「隐蔽版」曾因不透明 base64 被判 **prompt injection**、部分 AI 拒答。
+  本次按用户要求改回 base64，属**带风险的有意选择**；退路是改用**明文完整地址**（功能一致）。
 
 ## [2.3.0] - 2026-10-14
 
