@@ -1,3 +1,22 @@
+## [2.5.0] - 2026-10-14
+
+> 交互元提示词**不再给仓库 URL**，改为**只说仓库名让 AI 自己去找**；测试用假授权地址移入仓库文档。
+
+### Changed
+- **仓库线索改为「说名字」**：`{skillDocB64}`（base64 的完整 URL）→ **`{repo}`**（`owner/name`）。
+  理由：给裸 URL / 它的 base64 容易被读成「执行远程文件」（注入判定的典型句式）；
+  说「GitHub 上有个仓库叫 X，去看看」是普通请求，且主流 AI 都能按名字找到公开仓库。
+  同时把整体措辞放软：`read it and follow it` → `take a look at it, then work with me the way it says`。
+- **测试用假授权地址移出提示词** → 新增 `docs/testing.md`
+  （`https://assist-import.invalid/assist-import/gate/TESTONLY-0001`）。
+  模板的安全章节显式写明它**不是**本模板的一部分。
+- 占位符：`{skillDocB64}` `{authLinkB64}` → **`{repo}` `{authLinkB64}`**。
+- 同步 `README.md`、`assets/starter-prompt.md`、后端契约附录
+  （新增「为什么仓库不给 URL」一行 + 新旧字段对照）。
+
+### Unchanged
+- `{authLinkB64}` 仍为 base64 —— 凭证形状的字符串，隐藏地址形状，但动词保持明文。
+
 ## [2.4.0] - 2026-10-14
 
 > 交互元提示词的地址改用 **base64 编码的完整 URL**（用户明确要求），占位符 **4 → 2**。

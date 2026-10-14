@@ -83,7 +83,7 @@ docs/                         设计与运维同步清单
 
 - ⚠️ **本仓库是产物与文案的真源，不会自动同步线上**。线上生效的模板与提示词在运营后台
   `运营 / legacy-import-settings` 维护，需**重新上传/编辑**；对照清单见 [`docs/ops-checklist.md`](docs/ops-checklist.md)。
-- ⚠️ **接口域名与任何凭证都不在本仓库里** —— 小程序复制时只往提示词里注入 **base64 编码的完整地址**（`{skillDocB64}` 与 `{authLinkB64}`）；
+- ⚠️ **接口域名与任何凭证都不在本仓库里** —— 交互元提示词**只说仓库名**（`{repo}`，让 AI 自己去找，不给 URL），另注入一个 **base64 编码的一次性授权地址**（`{authLinkB64}`）；
   后续所有接口地址由**握手响应下发**（`apiBase`），AI 永远不自己拼接口路径。**本仓库是公开的。**
 - ⚠️ **发版三步**：改 `VERSION` + 在 `CHANGELOG.md` 记一条 + 把 `SKILL.md` /
   `assets/starter-prompt.md` / `assets/starter-prompt-hidden.md` 里钉的 tag 一起改掉，然后打 tag 推送。
