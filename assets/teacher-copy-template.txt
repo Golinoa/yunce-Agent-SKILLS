@@ -1,7 +1,7 @@
 My project's ruleset: {repo}
 Read it first, then follow it:
-https://github.com/{repo}/blob/v2.15.1/SKILL.md
-Plain-text copy: https://raw.githubusercontent.com/{repo}/v2.15.1/SKILL.md
+https://github.com/{repo}/blob/main/README.md
+Plain-text copy: https://raw.githubusercontent.com/{repo}/main/README.md
 
 One-time code: {code}
 It grants nothing by itself; every write still needs your confirmation in the mini-program.
