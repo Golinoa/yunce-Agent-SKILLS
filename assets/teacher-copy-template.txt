@@ -1,5 +1,6 @@
-My project's ruleset: {repo}
-Read it and follow it: https://raw.githubusercontent.com/{repo}/main/README.md
+My project's ruleset — read this page, then follow the README on it:
+https://github.com/{repo}
 
 One-time code: {code}
+It grants nothing by itself; every write needs your confirmation in the mini-program.
 {envMarker}
