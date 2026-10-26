@@ -190,9 +190,9 @@ curl -s -X POST "{apiBase}/assist-import/sessions/{sessionId}/exchange" -H "Cont
 
 **③ 写入隔离区**（一次 30~50 行）
 ```bash
-curl -s -X POST "{apiBase}/assist-import/batches/{batchKey}/rows" -H "Content-Type: application/json" -d '{"rows":[{"rowNo":1,"name":"王五","gender":"","birthday":"","phone":"","subject":"绘画","className":"素描一班","classCategory":"班课","remainHours":8,"validUntil":"","payAmount":"","remark":""}]}'
+curl -s -X POST "{apiBase}/assist-import/batches/{batchKey}/rows" -H "Content-Type: application/json" -d '{"rows":[{"rowNo":1,"name":"王五","gender":"","birthday":"","phone":"","subject":"绘画","className":"素描一班","classCategory":"班课","remainHours":8,"validUntil":"","payAmount":"","remark":"","totalHours":20,"giftHours":2,"lessonDates":"2025-09-06;2025-09-13"}]}'
 ```
-一次发 30~50 行，在数组里继续追加同样结构的对象。行字段（12 键固定）：`rowNo`（从 1 起，**同批内绝不重排**）、`name`（必填）、`gender`、`birthday`、`phone`、`subject`、`className`、`classCategory`、`remainHours`、`validUntil`、`payAmount`、`remark`；拿不准的留空串 `""`，**只写老师给过的值，不许编**。超过 `capacity.remain` 的行**不许上传**，剩下的拆成另一个表格交付。返回 `{"accepted":n,"inserted":n,"replaced":n,"totalRows":n,"rejected":[…]}`；重发同一个 `rowNo` = 替换该行 ⇒ 重试安全。
+一次发 30~50 行，在数组里继续追加同样结构的对象。行字段（**15 键固定**）：`rowNo`（从 1 起，**同批内绝不重排**）、`name`（必填）、`gender`、`birthday`、`phone`、`subject`、`className`、`classCategory`、`remainHours`、`validUntil`、`payAmount`、`remark`、`totalHours`（当年一共多少课时，**含赠送**）、`giftHours`（上面 `remainHours` 里有几节是赠送的，不能大于 `remainHours`）、`lessonDates`（上过课的日期，分号隔开如 `"2025-09-06;2025-09-13"`，可加 `@请假`/`@缺勤`，条数不能超过 `totalHours − remainHours`）。拿不准的留空串 `""`，**只写老师给过的值，不许编**。🔴 三个新字段必须**和表格里那一列一致**：表格第 13 列填了赠送、这里 `giftHours` 就必须带上同样的值，漏传等于老师填了个空。超过 `capacity.remain` 的行**不许上传**，剩下的拆成另一个表格交付。返回 `{"accepted":n,"inserted":n,"replaced":n,"totalRows":n,"rejected":[…]}`；重发同一个 `rowNo` = 替换该行 ⇒ 重试安全。
 
 **分片上传（名单一次发不完时）**：① 每片 30~50 行，`rowNo` 按全批连续编号、升序逐片发；② 🔴 每一片都**从名单文件里逐段照抄切出来**，不许凭记忆重新生成——重写必然走样；③ 每传完一片报一句：`已传 X 位，还剩 Y 位。`；④ 传完核对返回的 `totalRows` 是否等于总人数，不等就补发缺的那几段。
 
